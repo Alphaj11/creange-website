@@ -214,30 +214,90 @@ body.menu-open .site-header { transform: none; background: transparent; border-c
   display: grid; place-items: center;
   transform: translateY(100%); pointer-events: none;
 }
-.curtain__tie { width: 22px; height: 74px; opacity: 0; }
 html.is-arriving .curtain { transform: none; }
 
-/* ---------- Intro ---------- */
+/* ---------- Intro : l'entrée dans la maison ----------
+   noir → monogramme C en laiton et 1875 → la porte s'ouvre →
+   la caméra entre → le costume sous la lumière → le titre */
 .intro { display: none; }
 html.js .intro {
   position: fixed; inset: 0; z-index: 150; color: var(--ivory);
-  background: radial-gradient(60% 50% at 50% 42%, rgba(152, 118, 61, .14) 0%, rgba(152, 118, 61, 0) 70%), radial-gradient(90% 70% at 100% 100%, rgba(18, 61, 50, .6), rgba(18, 61, 50, 0) 70%), radial-gradient(80% 70% at 0% 0%, rgba(16, 31, 54, .9), rgba(16, 31, 54, 0) 70%), var(--coal);
-  display: grid; place-items: center; overflow: hidden;
+  display: block; background: #0A0B0C; overflow: hidden; contain: strict;
+  --door-w: min(62vh, 74vw); --door-h: min(80vh, 150vw);
 }
 html.js.no-intro .intro { display: none; }
-.intro__stage { position: relative; display: grid; justify-items: center; }
-.intro__tie { position: relative; width: clamp(64px, 7vw, 92px); aspect-ratio: 364 / 1303; height: auto; margin-bottom: 34px; filter: drop-shadow(0 18px 22px rgba(0,0,0,.45)); }
-.intro__tie img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.intro__knot { clip-path: inset(0 0 83.5% 0); transform-origin: 50% 8%; }
-.intro__blade { clip-path: inset(15.5% 0 0 0); transform-origin: 50% 16%; }
-.intro__name { margin: 0; display: grid; justify-items: center; line-height: 1; }
-.intro__maison { display: block; overflow: hidden; font-size: .78rem; letter-spacing: .5em; text-transform: uppercase; font-weight: 500; margin-bottom: 12px; padding-left: .5em; }
-.intro__maison > span { display: inline-block; }
-.intro__word { display: flex; overflow: hidden; padding-top: .2em !important; margin-top: -.2em; font-family: var(--serif); font-weight: 500; font-size: clamp(3.4rem, 11vw, 8.5rem); letter-spacing: .08em; padding: 0 0 .06em .08em; }
-.intro__word > span { display: inline-block; }
-.intro__since { overflow: hidden; margin: 22px 0 0; font-size: .82rem; color: var(--sand); letter-spacing: .06em; }
-.intro__since > span { display: inline-block; }
-.intro__skip { position: absolute; right: var(--gutter); bottom: 28px; background: none; border: 0; color: var(--ivory-soft); font-size: .8rem; cursor: pointer; }
+
+/* l'intérieur : bleu nuit et vert profond, une lumière de vitrine */
+.intro__room { position: absolute; inset: 0; z-index: 0; clip-path: inset(50% 50% 50% 50%); }
+.intro__view { position: absolute; inset: 0; will-change: transform;
+  background: radial-gradient(60% 45% at 50% 34%, #1B3050 0%, rgba(16, 31, 54, 0) 70%), radial-gradient(55% 50% at 0% 100%, rgba(18, 61, 50, .9), rgba(18, 61, 50, 0) 70%), radial-gradient(55% 50% at 100% 100%, rgba(18, 61, 50, .9), rgba(18, 61, 50, 0) 70%), linear-gradient(180deg, #101F36 0%, #0B241E 100%); }
+.intro__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; mix-blend-mode: screen; }
+.intro__view::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(42% 52% at 50% 46%, rgba(0, 0, 0, 0) 0%, rgba(6, 12, 14, .55) 70%, rgba(4, 8, 9, .9) 100%); }
+.intro__beam { position: absolute; z-index: 1; left: 50%; top: -6%; width: min(70vh, 110vw); height: 96%; transform: translateX(-50%); pointer-events: none;
+  clip-path: polygon(43% 0, 57% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(255, 232, 186, .30) 0%, rgba(201, 168, 106, .10) 40%, rgba(201, 168, 106, 0) 88%);
+  filter: blur(6px); mix-blend-mode: screen; }
+.intro__rack { position: absolute; z-index: 2; left: 50%; top: 12vh; width: min(34vh, 52vw); transform: translateX(-50%); }
+.intro__rail { position: absolute; left: -55%; width: 210%; top: -7.4vh; height: 7.6vh; overflow: visible; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .6)); }
+.intro__suit { position: relative; width: 100%; height: auto; filter: drop-shadow(0 40px 40px rgba(0, 0, 0, .75)) brightness(1.05) contrast(1.06); }
+.intro__floor { position: absolute; left: -40%; right: -40%; bottom: -5%; height: 14%; z-index: -1;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(201, 168, 106, .28), rgba(201, 168, 106, 0) 70%); }
+
+/* la porte : bois laqué sombre, verre fumé, tirages en laiton */
+.intro__door { position: absolute; z-index: 3; left: 50%; top: 50%; width: var(--door-w); height: var(--door-h);
+  margin: calc(var(--door-h) / -2) 0 0 calc(var(--door-w) / -2); perspective: 1400px; transform-origin: 50% 50%; will-change: transform, opacity;
+  box-shadow: 0 0 0 1px rgba(152, 118, 61, .55), 0 0 0 10px #0E0C0A, 0 0 0 11px rgba(152, 118, 61, .3), 0 0 120px 30px rgba(0, 0, 0, .8); opacity: 0; }
+.intro__leaf { position: absolute; top: 0; bottom: 0; width: 50%; transform-style: preserve-3d; backface-visibility: hidden;
+  background: linear-gradient(90deg, #17120E 0%, #221A13 50%, #140F0B 100%); }
+.intro__leaf--l { left: 0; transform-origin: 0 50%; border-right: 1px solid rgba(0, 0, 0, .6); }
+.intro__leaf--r { right: 0; transform-origin: 100% 50%; border-left: 1px solid rgba(0, 0, 0, .6); }
+.intro__glass { position: absolute; inset: 7% 14% 9%; border: 1px solid rgba(152, 118, 61, .45);
+  background: linear-gradient(115deg, rgba(23, 41, 67, .55) 0%, rgba(11, 36, 30, .7) 45%, rgba(242, 239, 231, .06) 52%, rgba(16, 31, 54, .6) 60%, rgba(6, 10, 12, .85) 100%); }
+.intro__pull { position: absolute; top: 38%; height: 26%; width: 5px; border-radius: 3px;
+  background: linear-gradient(90deg, #4E3A1B, #D2B377 45%, #98763D 70%, #4E3A1B); box-shadow: 0 6px 10px rgba(0, 0, 0, .6); }
+.intro__leaf--l .intro__pull { right: 7%; }
+.intro__leaf--r .intro__pull { left: 7%; }
+.intro__seam { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; opacity: 0;
+  background: linear-gradient(180deg, rgba(255, 236, 196, 0), rgba(255, 236, 196, .95) 30%, rgba(255, 236, 196, .95) 70%, rgba(255, 236, 196, 0));
+  box-shadow: 0 0 18px 4px rgba(201, 168, 106, .55); }
+
+/* le monogramme */
+.intro__mono { position: absolute; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 18px; pointer-events: none; }
+.intro__seal { width: clamp(150px, 22vh, 210px); height: auto; overflow: visible; filter: drop-shadow(0 0 22px rgba(152, 118, 61, .25)); }
+.intro__ring { fill: none; stroke: url(#ib-brass); stroke-width: 1.2; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.intro__ring--in { stroke-width: .6; opacity: .7; }
+.intro__c { font-family: var(--serif); font-weight: 500; font-size: 78px; opacity: 0; }
+.intro__c--shine { mix-blend-mode: screen; opacity: 1; }
+.intro__year { margin: 0; font-family: var(--serif); font-size: 1.25rem; letter-spacing: .32em; padding-left: .32em; color: #B08E52; opacity: 0; white-space: nowrap; }
+.intro__year span { font-family: var(--sans); font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--ivory-soft); margin-right: .6em; vertical-align: .25em; }
+
+/* le titre */
+.intro__title { position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); bottom: 9vh; margin: 0; text-align: center;
+  font-family: var(--serif); font-weight: 500; font-size: clamp(2.2rem, 1.2rem + 3.6vw, 5rem); line-height: 1; letter-spacing: -.01em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, .8); }
+.intro__w { display: inline-block; overflow: hidden; padding: 0 .04em .08em; vertical-align: top; }
+.intro__w > span { display: inline-block; transform: translateY(110%); }
+.intro__w:nth-child(2) > span { font-style: italic; color: #C9A86A; }
+
+.intro__skip { position: absolute; z-index: 5; right: var(--gutter); bottom: 26px; padding: 10px 0; background: none; border: 0; color: var(--ivory-soft); font-size: .78rem; letter-spacing: .08em; cursor: pointer; }
+.intro__skip::after { content: ""; display: block; height: 1px; margin-top: 4px; background: var(--gold); transform-origin: 0 50%; transform: scaleX(.4); transition: transform .4s var(--ease-out); }
+.intro__skip:hover::after, .intro__skip:focus-visible::after { transform: scaleX(1); }
+
+@media (max-width: 900px) {
+  html.js .intro { --door-w: min(78vw, 46svh); --door-h: min(70svh, 150vw); }
+  .intro__rack { top: 15svh; width: min(60vw, 34svh); }
+  .intro__rail { top: -6svh; height: 6svh; }
+  .intro__title { bottom: 11svh; font-size: clamp(2.1rem, 10vw, 3.2rem); }
+  .intro__w { display: block; }
+  .intro__skip { left: 0; right: 0; text-align: center; }
+  .intro__skip::after { margin: 4px auto 0; width: 60px; }
+}
+@media (max-width: 900px) and (max-height: 520px) {
+  .intro__rack { top: 16svh; width: 24svh; left: 30%; }
+  .intro__title { left: 50%; bottom: auto; top: 40svh; text-align: left; }
+  .intro__w { display: block; }
+}
 
 main { position: relative; display: block; }
 
@@ -1260,3 +1320,32 @@ html:not(.motion) .ab-stage { position: relative; height: auto; min-height: 100v
   html:not(.motion) .ab-craft .ab-stage > .ab-detail { flex: 0 0 48%; width: 48% !important; }
   html:not(.motion) .ab-craft__tape { width: 100% !important; }
 }
+
+/* ---------- Transitions par les matières (accueil) ---------- */
+.weave { position: fixed; inset: 0; z-index: 90; visibility: hidden; pointer-events: none; overflow: hidden; background: #10141C; contain: strict; }
+.weave__tex { position: absolute; inset: -12%; will-change: transform; background-repeat: repeat; }
+.weave[data-mat="laine"] .weave__tex { background-image: url(../img/tex-laine.webp); background-size: 256px 256px; }
+.weave[data-mat="soie"] .weave__tex { background-image: url(../img/tex-soie.webp); background-size: 216px 216px; }
+.weave[data-mat="cuir"] .weave__tex { background-image: url(../img/tex-cuir.webp); background-size: 512px 512px; }
+/* lumière de boutique : vignettage et reflet qui glisse sur la matière */
+.weave::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 60% at 50% 42%, rgba(255, 236, 196, .1) 0%, rgba(0, 0, 0, 0) 55%), radial-gradient(120% 90% at 50% 50%, rgba(0, 0, 0, 0) 45%, rgba(5, 7, 10, .72) 100%); }
+.weave[data-mat="cuir"]::after { background: radial-gradient(38% 30% at 42% 34%, rgba(255, 222, 176, .26), rgba(255, 222, 176, 0) 70%), radial-gradient(60% 50% at 40% 35%, rgba(255, 226, 180, .1), rgba(0, 0, 0, 0) 60%), radial-gradient(120% 90% at 50% 50%, rgba(0, 0, 0, 0) 40%, rgba(12, 6, 3, .78) 100%); }
+.weave__sheen { position: absolute; top: -20%; bottom: -20%; left: 0; width: 60%; z-index: 1; will-change: transform; mix-blend-mode: screen;
+  background: linear-gradient(100deg, rgba(255, 240, 210, 0) 20%, rgba(255, 240, 210, .13) 50%, rgba(255, 240, 210, 0) 80%); transform: translateX(-120%) skewX(-12deg); }
+.weave[data-mat="soie"] .weave__sheen { background: linear-gradient(100deg, rgba(190, 210, 255, 0) 20%, rgba(190, 210, 255, .2) 50%, rgba(190, 210, 255, 0) 80%); }
+.weave__word { position: absolute; z-index: 2; left: 0; right: 0; top: 50%; margin: -.6em 0 0; text-align: center;
+  font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(2.2rem, 1.4rem + 3vw, 4.4rem); line-height: 1.2; color: var(--ivory); opacity: 0;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, .7); }
+.weave__word::after { content: ""; display: block; width: 46px; height: 1px; margin: .35em auto 0; background: var(--gold); }
+
+/* Rideau entre les pages : panneau de bois sombre et monogramme en laiton */
+.curtain { background: #17100B url(../img/tex-bois.webp) 0 0 / 512px 512px repeat; }
+.curtain::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 50% at 50% 45%, rgba(152, 118, 61, .12), rgba(0, 0, 0, 0) 70%), radial-gradient(120% 90% at 50% 50%, rgba(0, 0, 0, 0) 40%, rgba(6, 4, 3, .8) 100%); }
+.curtain__mark { position: relative; width: clamp(84px, 11vh, 110px); height: auto; opacity: 0; overflow: visible; filter: drop-shadow(0 0 18px rgba(152, 118, 61, .3)); }
+.curtain__mark circle { fill: none; stroke: url(#cb-brass); stroke-width: 1.2; }
+.curtain__mark text { font-family: var(--serif); font-weight: 500; font-size: 78px; }
+.site-footer__seal { width: 54px; height: 54px; margin-bottom: 18px; overflow: visible; }
+.site-footer__seal circle { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.site-footer__seal text { font-family: var(--serif); font-weight: 500; font-size: 78px; fill: #B08E52; }

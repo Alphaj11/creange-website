@@ -32,8 +32,8 @@
   function curtainOut(onDone) {
     if (!motion || !curtain) { onDone && onDone(); return; }
     root.classList.remove('is-arriving');
-    gsap.set(curtain, { yPercent: 0 });
-    const tie = $('.curtain__tie', curtain);
+    gsap.set(curtain, { y: 0, yPercent: 0 });
+    const tie = $('.curtain__mark', curtain);
     gsap.timeline({ onComplete: () => { gsap.set(curtain, { yPercent: 100 }); onDone && onDone(); } })
       .fromTo(tie, { opacity: 1, y: 0 }, { opacity: 0, y: -30, duration: .35, ease: 'power2.in' })
       .to(curtain, { yPercent: -100, duration: .8, ease: 'expo.inOut' }, '<.05');
@@ -41,9 +41,9 @@
 
   function curtainIn(href) {
     if (!motion || !curtain) { window.location.href = href; return; }
-    const tie = $('.curtain__tie', curtain);
+    const tie = $('.curtain__mark', curtain);
     gsap.timeline({ onComplete: () => { window.location.href = href; } })
-      .fromTo(curtain, { yPercent: 100 }, { yPercent: 0, duration: .65, ease: 'expo.inOut' })
+      .fromTo(curtain, { y: 0, yPercent: 100 }, { y: 0, yPercent: 0, duration: .65, ease: 'expo.inOut' })
       .fromTo(tie, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .35, ease: 'power2.out' }, '-=.2');
   }
 
@@ -89,70 +89,95 @@
 
   function runIntro(onExit) {
     if (!intro) return Promise.resolve();
-    if (!motion || arrivingFromSite) {
+    // une seule fois par visite : rien en naviguant d'une page à l'autre ni en rechargeant
+    const seenSession = session && session.getItem('mc-intro-s') === '1';
+    if (!motion || arrivingFromSite || seenSession) {
       root.classList.add('no-intro');
+      intro.remove();
       return Promise.resolve();
     }
     const seen = local && local.getItem('mc-intro') === '1';
     if (local) local.setItem('mc-intro', '1');
+    if (session) session.setItem('mc-intro-s', '1');
     document.body.style.overflow = 'hidden';
 
     return new Promise((resolve) => {
-      const knot = $('.intro__knot', intro);
-      const blade = $('.intro__blade', intro);
-      const tieBox = $('.intro__tie', intro);
-      const letters = $$('.intro__word > span', intro);
-      const maison = $('.intro__maison > span', intro);
-      const since = $('.intro__since > span', intro);
+      const mono = $('[data-intro-mono]', intro);
+      const rings = $$('.intro__ring', intro);
+      const cs = $$('.intro__c', intro);
+      const shine = $('#ib-shine', intro);
+      const year = $('.intro__year', intro);
+      const door = $('[data-intro-door]', intro);
+      const leafL = $('.intro__leaf--l', intro);
+      const leafR = $('.intro__leaf--r', intro);
+      const seam = $('.intro__seam', intro);
+      const room = $('[data-intro-room]', intro);
+      const view = $('[data-intro-view]', intro);
+      const beam = $('.intro__beam', intro);
+      const rack = $('[data-intro-rack]', intro);
+      const words = $$('.intro__w > span', intro);
       const skip = $('[data-intro-skip]', intro);
-
-      // Nouage : la lame remonte sous le nœud, puis le nœud se resserre et la soie retombe.
-      gsap.set(blade, { yPercent: 34, rotate: -4, opacity: 0 });
-      gsap.set(knot, { scaleX: 1.34, scaleY: .74, rotate: 6, opacity: 0 });
-      gsap.set(tieBox, { y: -14 });
-      gsap.set(letters, { yPercent: 115 });
-      gsap.set([maison, since], { yPercent: 120 });
+      let exited = false;
 
       const finish = () => {
         document.body.style.overflow = '';
         intro.remove();
         resolve();
       };
+      const exit = () => { if (!exited) { exited = true; if (onExit) onExit(); } };
+
+      // ouverture de la porte : l'intérieur n'est visible que par l'embrasure
+      const r = door.getBoundingClientRect();
+      const W = window.innerWidth, H = window.innerHeight;
+      const t = Math.max(0, r.top), b = Math.max(0, H - r.bottom), l = Math.max(0, r.left), rr = Math.max(0, W - r.right);
+      // embrasure animée via un objet intermédiaire (interpolation fiable du clip-path)
+      const cut = { t, r: W / 2, b, l: W / 2 };
+      const drawCut = () => { room.style.clipPath = `inset(${cut.t}px ${cut.r}px ${cut.b}px ${cut.l}px)`; };
+      drawCut();
 
       const tl = gsap.timeline({ onComplete: finish });
+      // 1. le monogramme se grave dans le laiton
+      tl.to(rings, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut', stagger: .12 }, .1)
+        .to(cs, { opacity: 1, duration: .6, ease: 'power1.out' }, .32)
+        .fromTo(shine, { attr: { x1: -1, x2: 0 } }, { attr: { x1: 1.2, x2: 2.2 }, duration: .8, ease: 'power2.inOut' }, .55)
+        .fromTo(year, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, ease: 'power2.out' }, .62);
+
       if (seen) {
-        // version courte pour les visiteurs déjà venus
-        tl.to([knot, blade], { opacity: 1, duration: .25 })
-          .to(blade, { yPercent: 0, rotate: 0, duration: .6, ease: 'power3.out' }, 0)
-          .to(knot, { scaleX: 1, scaleY: 1, rotate: 0, duration: .55, ease: 'power3.out' }, .15)
-          .to(tieBox, { y: 0, duration: .6, ease: 'power2.out' }, 0)
-          .to(letters, { yPercent: 0, duration: .6, stagger: .025, ease: 'power4.out' }, .2)
-          .to(maison, { yPercent: 0, duration: .5, ease: 'power3.out' }, .3)
-          .to(intro, { yPercent: -100, duration: .8, ease: 'expo.inOut' }, '+=.2')
-          .add(() => onExit && onExit(), '<.1');
+        // retour d'un visiteur (nouvelle visite) : seulement la signature
+        tl.to(intro, { opacity: 0, duration: .5, ease: 'power2.inOut' }, 1.05)
+          .add(exit, 1.1);
       } else {
-        tl.to(knot, { opacity: 1, duration: .5, ease: 'power1.out' }, .1)
-          .to(blade, { opacity: 1, duration: .4, ease: 'power1.out' }, .35)
-          // la lame est tirée vers le haut à travers le nœud
-          .to(blade, { yPercent: 0, duration: 1.15, ease: 'power3.inOut' }, .35)
-          .to(tieBox, { y: 0, duration: 1.3, ease: 'power2.inOut' }, .35)
-          // le nœud se resserre en fin de geste
-          .to(knot, { scaleX: 1, scaleY: 1, duration: .75, ease: 'power4.out' }, 1.15)
-          .to(knot, { rotate: 0, duration: .9, ease: 'power3.out' }, 1.1)
-          // la soie retombe sous son propre poids : oscillation amortie
-          .to(blade, { rotate: 2.2, duration: .32, ease: 'sine.out' }, 1.35)
-          .to(blade, { rotate: -1, duration: .42, ease: 'sine.inOut' })
-          .to(blade, { rotate: 0, duration: .5, ease: 'sine.inOut' })
-          .to(maison, { yPercent: 0, duration: .7, ease: 'power3.out' }, 1.45)
-          .to(letters, { yPercent: 0, duration: .9, stagger: .05, ease: 'power4.out' }, 1.5)
-          .to(since, { yPercent: 0, duration: .6, ease: 'power3.out' }, 2.05)
-          .to(intro, { yPercent: -100, duration: 1, ease: 'expo.inOut' }, 3.0)
-          .add(() => onExit && onExit(), 3.15);
+        // 2. la porte sort de l'ombre, un filet de lumière filtre entre les battants
+        tl.to(mono, { opacity: 0, scale: .86, duration: .4, ease: 'power2.in' }, 1.15)
+          .to(door, { opacity: 1, duration: .45, ease: 'power1.out' }, 1.1)
+          .to(seam, { opacity: 1, duration: .3, ease: 'power1.out' }, 1.35)
+          // 3. les battants s'ouvrent vers l'intérieur
+          .to(leafL, { rotateY: -100, duration: 1, ease: 'power3.inOut' }, 1.5)
+          .to(leafR, { rotateY: 100, duration: 1, ease: 'power3.inOut' }, 1.5)
+          .to(seam, { opacity: 0, duration: .3 }, 1.6)
+          .to(cut, { r: rr, l, duration: .75, ease: 'power3.inOut', onUpdate: drawCut }, 1.5)
+          // 4. la caméra franchit le seuil
+          .to(door, { scale: 3.4, opacity: 0, duration: .95, ease: 'power2.in' }, 1.95)
+          .to(cut, { t: 0, r: 0, b: 0, l: 0, duration: .8, ease: 'power2.in', onUpdate: drawCut }, 2.05)
+          .fromTo(view, { scale: 1.3 }, { scale: 1, duration: 1.6, ease: 'power3.out' }, 1.5)
+          // 5. la lumière s'allume sur le costume
+          .fromTo(beam, { opacity: 0 }, { opacity: 1, duration: .6, ease: 'power2.out' }, 2.05)
+          .fromTo(rack, { y: 24, filter: 'brightness(.45)' }, { y: 0, filter: 'brightness(1)', duration: 1.1, ease: 'power2.out' }, 1.9)
+          // 6. le titre
+          .to(words, { yPercent: 0, y: 0, duration: .85, stagger: .1, ease: 'power4.out' }, 2.45)
+          .to(intro, { opacity: 0, duration: .6, ease: 'power2.inOut' }, 3.45)
+          .add(exit, 3.5);
+        gsap.set(words, { yPercent: 110, y: 0 });
       }
 
-      const skipNow = () => { if (tl.progress() < .97) tl.progress(1); };
+      // passer : fondu immédiat, sans à-coup
+      const skipNow = () => {
+        if (exited) return;
+        tl.kill();
+        exit();
+        gsap.to(intro, { opacity: 0, duration: .35, ease: 'power1.out', onComplete: finish });
+      };
       skip.addEventListener('click', skipNow);
-      intro.addEventListener('click', skipNow);
       window.addEventListener('keydown', function onKey(ev) {
         if (['Escape', 'Enter', ' '].includes(ev.key)) { skipNow(); window.removeEventListener('keydown', onKey); }
       });
@@ -370,7 +395,7 @@
             if (i < cards.length - 1) tl.to(card, { opacity: 0, y: -12, duration: .03 }, t + .07).to(dots[i], { scale: 1, duration: .03 }, t + .07);
           });
         }
-        tl.to([prod, copy, $('.hotspots', costume)], { opacity: 0, duration: .07 }, .93);
+        tl.to([copy, $('.hotspots', costume)], { opacity: 0, duration: .07 }, .93);
       }
 
       // SCÈNE 03 : la chemise quitte l'étagère
@@ -448,7 +473,7 @@
             .to(b, { opacity: 1, y: 0, duration: .08 }, .62)
             .to(prod, { yPercent: -14, scale: .86, duration: .14, ease: 'power2.inOut' }, .58);
         }
-        tl.to([prod, copy], { opacity: 0, duration: .07 }, .94);
+        tl.to([copy], { opacity: 0, duration: .07 }, .94);
       }
 
       // SCÈNE 06 : le savoir-faire, composition éditoriale
@@ -563,6 +588,72 @@
         gsap.fromTo(el, { yPercent: -v }, { yPercent: v, ease: 'none', scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
       });
       return () => {};
+    });
+  }
+
+  /* ---------------------------------------------------------
+     5 quater. Transitions par les matières (accueil uniquement)
+     Le vêtement se fond dans sa matière, qui remplit l'écran puis se
+     retire vers le haut comme une étoffe qu'on soulève.
+     --------------------------------------------------------- */
+  function weaves() {
+    const el = $('[data-weave]');
+    if (!el || !motion) return;
+    const tex = $('.weave__tex', el);
+    const sheen = $('.weave__sheen', el);
+    const word = $('.weave__word', el);
+    const junctions = [
+      { to: '.scene--chemise', from: '.product--veste', mat: 'laine', label: 'Le tissu' },
+      { to: '.scene--chaussures', from: '.product--cravate', mat: 'soie', label: 'La soie' },
+      { to: '.scene--atelier', from: '.product--chaussures', mat: 'cuir', label: 'Le cuir' },
+    ];
+    let active = null;
+    const show = (j) => {
+      if (active === j) return;
+      active = j;
+      el.dataset.mat = j.mat;
+      word.textContent = j.label;
+    };
+    junctions.forEach((j) => {
+      const target = $(j.to);
+      const origin = $(j.from);
+      if (!target || !origin) return;
+      ScrollTrigger.create({
+        trigger: target, start: 'top 120%', end: 'top -60%', scrub: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          if (p <= 0 || p >= 1) { if (active === j) { el.style.visibility = 'hidden'; active = null; } return; }
+          show(j);
+          el.style.visibility = 'visible';
+          const W = window.innerWidth, H = window.innerHeight;
+          if (p < .42) {
+            // 1. la matière naît du vêtement et gagne tout l'écran
+            const r = origin.getBoundingClientRect();
+            const cx = Math.min(Math.max(r.left + r.width / 2, 0), W), cy = Math.min(Math.max(r.top + r.height / 2, 0), H);
+            const far = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
+            const k = gsap.parseEase('power2.in')(p / .42);
+            el.style.clipPath = `circle(${(k * far * 1.02).toFixed(1)}px at ${cx.toFixed(0)}px ${cy.toFixed(0)}px)`;
+            gsap.set(tex, { scale: 1.25 - .17 * k, yPercent: 0 });
+            gsap.set(word, { opacity: 0 });
+            gsap.set(sheen, { xPercent: -120 });
+          } else if (p < .6) {
+            // 2. l'écran est tendu d'étoffe : un reflet glisse, le nom de la matière
+            const q = (p - .42) / .18;
+            el.style.clipPath = 'none';
+            gsap.set(tex, { scale: 1.08 - .04 * q, yPercent: 0 });
+            gsap.set(sheen, { xPercent: -120 + 240 * q });
+            gsap.set(word, { opacity: Math.min(1, q * 2.4), y: 10 * (1 - q) });
+          } else {
+            // 3. l'étoffe se soulève et révèle la scène suivante
+            const q = gsap.parseEase('power2.inOut')((p - .6) / .4);
+            el.style.clipPath = `inset(0 0 ${(q * 100).toFixed(2)}% 0)`;
+            gsap.set(tex, { scale: 1.04, yPercent: -8 * q });
+            gsap.set(word, { opacity: 1 - q * 2.5, y: -30 * q });
+          }
+        },
+        onLeave: () => { el.style.visibility = 'hidden'; active = null; },
+        onLeaveBack: () => { el.style.visibility = 'hidden'; active = null; },
+      });
     });
   }
 
@@ -822,6 +913,7 @@
   scrollAnimations();
   scenes();
   aboutScenes();
+  weaves();
 
   const begin = () => {
     heroIn();

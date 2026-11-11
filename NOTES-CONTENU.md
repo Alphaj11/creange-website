@@ -59,3 +59,11 @@ Uniquement des intitulés de mise en scène, sans aucune information nouvelle su
 - Nouveaux recadrages de photos existantes : `enseigne-creange.webp` (lettres de l'enseigne, tirée de la photo de façade) et `matiere-cuir-tresse.webp` (ceintures tressées). Aucune image générée.
 - Emplacements réservés à de futures photographies originales (atelier de retouche, étoffes de la boutique, intérieur à la tombée du jour) : masqués pour les visiteurs, visibles en ajoutant `?emplacements` à l'adresse de la page.
 - À signaler : la ligne « Une maison transmise… » de l'accueil est une formulation déduite de « maison familiale », non une information vérifiée.
+
+## Direction « effet waouh » (12/11/2026)
+- Nouvelle entrée sur l'accueil (3,5 à 4 s) : noir, monogramme C en laiton, « Maison fondée en 1875 », une porte qui s'ouvre, la caméra entre dans un intérieur bleu nuit et vert profond, la veste croisée sur un portant sous un faisceau de lumière, puis le titre « L'élégance traverse le temps ». Bouton « Passer l'introduction » (clic, clavier, molette ou geste). Version complète à la première visite, signature courte (monogramme, environ 1,4 s) lors d'une nouvelle visite, rien du tout en naviguant ou en rechargeant pendant la même visite.
+- La porte, le portant et le faisceau sont dessinés en code. Le costume est le détourage de la vraie photo de la veste croisée, et le fond est la vraie photo d'intérieur, floutée et teintée (`intro-fond.webp`).
+- Transitions par les matières, uniquement sur l'accueil et seulement trois fois : « Le tissu » (après le costume), « La soie » (après la cravate), « Le cuir » (après les chaussures). La matière naît du vêtement, remplit l'écran puis se soulève vers le haut pour révéler la scène suivante. Les textures `tex-laine`, `tex-soie`, `tex-cuir` et `tex-bois` sont générées par calcul (sergé, motif de la cravate à pois, grain du cuir, veinage du bois) : ce ne sont ni des photos ni des produits.
+- Rideau entre les pages : panneau de bois sombre et monogramme en laiton. Le rideau précédent ne couvrait plus l'écran (décalage de position), c'est corrigé.
+- Monogramme ajouté dans le pied de page de toutes les pages.
+- Intitulés ajoutés : « Maison fondée en 1875 », « Passer l'introduction », « Le cuir ».

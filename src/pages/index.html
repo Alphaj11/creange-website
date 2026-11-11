@@ -8,22 +8,50 @@
 {{> tie}}
 
 <!-- Ouverture : la cravate en soie se noue (photographie détourée en deux couches) -->
-<div class="intro" data-intro aria-hidden="true">
-  <div class="intro__stage">
-    <div class="intro__tie">
-      <img class="intro__blade" src="/assets/img/cut-cravate-430.webp" alt="" decoding="async">
-      <img class="intro__knot" src="/assets/img/cut-cravate-430.webp" alt="" decoding="async">
+<div class="intro" data-intro>
+  <!-- l'intérieur : révélé par l'ouverture de la porte -->
+  <div class="intro__room" data-intro-room aria-hidden="true">
+   <div class="intro__view" data-intro-view>
+    <img class="intro__bg" src="/assets/img/intro-fond.webp" alt="" decoding="async">
+    <span class="intro__beam" aria-hidden="true"></span>
+    <div class="intro__rack" data-intro-rack>
+      <svg class="intro__rail" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="ib-rail" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#D2B377"/><stop offset=".5" stop-color="#98763D"/><stop offset="1" stop-color="#4E3A1B"/></linearGradient></defs>
+        <rect x="0" y="6" width="400" height="5" rx="2.5" fill="url(#ib-rail)"/>
+        <rect x="8" y="0" width="4" height="18" fill="#6E5427"/><rect x="388" y="0" width="4" height="18" fill="#6E5427"/>
+        <path d="M200 9 c-9 0 -9 14 0 14 l0 44" fill="none" stroke="url(#ib-rail)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <img class="intro__suit" src="/assets/img/cut-veste-croisee-640.webp" alt="" width="640" height="1078" decoding="async">
+      <span class="intro__floor" aria-hidden="true"></span>
     </div>
-    <p class="intro__name">
-      <span class="intro__maison"><span>Maison</span></span>
-      <span class="intro__word" aria-label="Créange"><span>C</span><span>r</span><span>é</span><span>a</span><span>n</span><span>g</span><span>e</span></span>
-    </p>
-    <p class="intro__since"><span>Perpignan, depuis 1875</span></p>
+   </div>
   </div>
-  <button class="intro__skip" type="button" data-intro-skip tabindex="-1">Passer</button>
+  <!-- la porte de la boutique -->
+  <div class="intro__door" data-intro-door aria-hidden="true">
+    <div class="intro__leaf intro__leaf--l"><span class="intro__glass"></span><span class="intro__pull"></span></div>
+    <div class="intro__leaf intro__leaf--r"><span class="intro__glass"></span><span class="intro__pull"></span></div>
+    <span class="intro__seam" aria-hidden="true"></span>
+  </div>
+  <!-- le monogramme -->
+  <div class="intro__mono" data-intro-mono aria-hidden="true">
+    <svg class="intro__seal" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <linearGradient id="ib-brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5E4620"/><stop offset=".38" stop-color="#C9A86A"/><stop offset=".55" stop-color="#98763D"/><stop offset="1" stop-color="#4A3718"/></linearGradient>
+        <linearGradient id="ib-shine" x1="-1" y1="0" x2="0" y2="0" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#FFF4D6" stop-opacity="0"/><stop offset=".5" stop-color="#FFF4D6" stop-opacity=".85"/><stop offset="1" stop-color="#FFF4D6" stop-opacity="0"/></linearGradient>
+      </defs>
+      <circle class="intro__ring" cx="60" cy="60" r="56" pathLength="1"/>
+      <circle class="intro__ring intro__ring--in" cx="60" cy="60" r="51" pathLength="1"/>
+      <text class="intro__c" x="60" y="61" text-anchor="middle" dominant-baseline="central" fill="url(#ib-brass)">C</text>
+      <text class="intro__c intro__c--shine" x="60" y="61" text-anchor="middle" dominant-baseline="central" fill="url(#ib-shine)">C</text>
+    </svg>
+    <p class="intro__year"><span>Maison fondée en</span> 1875</p>
+  </div>
+  <p class="intro__title" data-intro-title aria-hidden="true"><span class="intro__w"><span>L'élégance</span></span> <span class="intro__w"><span>traverse</span></span> <span class="intro__w"><span>le temps</span></span></p>
+  <button class="intro__skip" type="button" data-intro-skip>Passer l'introduction</button>
 </div>
 
 {{> header}}
+<div class="weave" data-weave aria-hidden="true"><div class="weave__tex"></div><span class="weave__sheen"></span><p class="weave__word"></p></div>
 {{> companion}}
 
 <main id="contenu">
