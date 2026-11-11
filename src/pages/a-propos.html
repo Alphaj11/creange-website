@@ -9,72 +9,141 @@
 {{> companion}}
 <main id="contenu">
 
-  <section class="page-hero page-hero--about" data-header-theme="dark" data-companion="off">
-    <div class="page-hero__media" data-hero-media>
-      {{img name="veste-croisee-marine" alt="" sizes="100vw" eager pos="50% 30%"}}
+  <!-- I. Présentation : la façade, puis le regard se porte sur l'enseigne -->
+  <section class="ab-scene ab-hero" data-header-theme="dark" data-companion="off" data-ab="hero">
+    <div class="ab-stage">
+      <div class="ab-hero__media" data-ab-media>
+        {{img name="facade-angle" alt="La façade en pierre de la boutique Créange, à l'angle de la rue, à Perpignan" sizes="(max-width: 900px) 170vw, 100vw" eager pos="30% 45%"}}
+      </div>
+      <div class="ab-hero__veil" data-ab-veil aria-hidden="true"></div>
+      <div class="ab-hero__copy" data-ab-copy>
+        <p class="hero__kicker" data-hero-line>À propos de nous</p>
+        <h1 class="page-hero__title ab-hero__title"><span class="line"><span data-hero-line>À propos de</span></span> <span class="line"><span data-hero-line>Maison Créange</span></span></h1>
+        <p class="page-hero__lead" data-hero-line>Le pilier de la mode masculine depuis 1875 à Perpignan.</p>
+      </div>
+      <p class="ab-hero__cue" data-hero-line aria-hidden="true"><span>Entrer dans la maison</span></p>
     </div>
-    <div class="page-hero__copy">
-      <p class="hero__kicker" data-hero-line>Notre histoire</p>
-      <h1 class="page-hero__title"><span class="line"><span data-hero-line>À propos de</span></span> <span class="line"><span data-hero-line>Maison Créange</span></span></h1>
-      <p class="page-hero__lead" data-hero-line>Le pilier de la mode masculine depuis 1875 à Perpignan.</p>
-    </div>
-    <p class="hero__year" aria-hidden="true">1875</p>
   </section>
 
-  <section class="story" data-header-theme="dark">
-    <div class="story__grid">
-      <div class="story__text">
-        <h2 class="display" data-split>Notre histoire</h2>
-        <h3 class="story__sub" data-reveal>Tradition et innovation</h3>
-        <p class="story__lead" data-reveal><span class="dropcap">D</span>epuis 1875, Maison Créange se positionne comme un leader dans le domaine de la mode masculine et des accessoires à Perpignan. Nous nous engageons à offrir des produits de qualité, alliant tradition et modernité, afin que chaque client trouve son style unique.</p>
+  <!-- II. Histoire et héritage : 1875 comme signature -->
+  <section class="ab-scene ab-origins" data-header-theme="dark" data-ab="origins">
+    <div class="ab-stage">
+      <div class="ab-origins__inner">
+        <figure class="ab-origins__sign" data-ab-sign>
+          <img src="/assets/img/enseigne-creange.webp" alt="L'enseigne CREANGE en lettres de métal sur la pierre de la façade" width="864" height="444" loading="lazy" decoding="async">
+          <figcaption>L'enseigne, 9 rue Maximilien de Sully</figcaption>
+        </figure>
+        <p class="ab-year" aria-label="1875"><span class="ab-year__outline" aria-hidden="true">1875</span><span class="ab-year__fill" data-ab-year aria-hidden="true">1875</span></p>
+        <div class="ab-origins__head" data-ab-head>
+          <p class="ab-kicker">I · Histoire et héritage</p>
+          <h2 class="ab-title">Notre histoire</h2>
+          <h3 class="ab-sub">Tradition et innovation</h3>
+        </div>
+        <div class="ab-origins__beats">
+          <p class="ab-origins__lead" data-ab-lead>Depuis 1875, Maison Créange se positionne comme un leader dans le domaine de la mode masculine et des accessoires à Perpignan. Nous nous engageons à offrir des produits de qualité, alliant tradition et modernité, afin que chaque client trouve son style unique.</p>
+          <ol class="ab-line" data-ab-line>
+            <li class="ab-line__item" data-ab-stop>
+              <span class="ab-line__mark">1875</span>
+              <h4 class="ab-line__title">Une maison familiale</h4>
+              <p>L'histoire de Créange commence à Perpignan.</p>
+            </li>
+            <li class="ab-line__item" data-ab-stop>
+              <span class="ab-line__mark">Depuis</span>
+              <h4 class="ab-line__title">Élégance et raffinement</h4>
+              <p>Une collection de prêt-à-porter pour hommes qui allie modernité et tradition.</p>
+            </li>
+            <li class="ab-line__item" data-ab-stop>
+              <span class="ab-line__mark">Aujourd'hui</span>
+              <h4 class="ab-line__title">9 rue Maximilien de Sully</h4>
+              <p>Prêt-à-porter, tenues de cérémonie, sportswear chic et accessoires.</p>
+            </li>
+          </ol>
+        </div>
       </div>
-      <figure class="story__facade">
-        <div class="reveal-img" data-reveal-img>{{img name="facade-angle" alt="La façade de la boutique Créange en pierre, à l'angle de la rue, à Perpignan" sizes="(max-width: 760px) 100vw, 52vw"}}</div>
-        <figcaption>La boutique, 9 rue Maximilien de Sully</figcaption>
+    </div>
+  </section>
+
+  <!-- III. La sélection : la passion de la mode italienne -->
+  <section class="ab-selection" data-header-theme="dark" data-companion="off">
+    <div class="ab-selection__grid">
+      <figure class="ab-sel__portrait" data-ab-speed="-6">
+        <div class="reveal-img" data-reveal-img>{{img name="costume-ceremonie-croise" alt="Homme en costume de cérémonie marine à revers brodés, gilet et cravate assortis" sizes="(max-width: 900px) 86vw, 42vw" pos="50% 22%"}}</div>
       </figure>
+      <figure class="ab-sel__shoes" data-ab-speed="14">
+        {{cut name="cut-richelieus" alt="Paire de richelieus en cuir italien cognac patiné" sizes="(max-width: 900px) 64vw, 26vw" class="ab-sel__shoes-img"}}
+      </figure>
+      <figure class="ab-sel__leather" data-ab-speed="8">
+        <div class="reveal-img" data-reveal-img><img src="/assets/img/matiere-cuir-tresse.webp" alt="Ceintures en cuir tressé, détail de la matière" width="682" height="880" loading="lazy" decoding="async"></div>
+        <figcaption>Le cuir tressé</figcaption>
+      </figure>
+      <div class="ab-sel__text">
+        <p class="ab-kicker" data-reveal>II · La sélection</p>
+        <h2 class="ab-title" data-split>Une passion pour la mode à l'italienne</h2>
+        <p class="ab-sel__lead" data-reveal>Notre équipe dédiée sélectionne des pièces de qualité supérieure, parfaites pour les cérémonies et les occasions spéciales, jusqu'aux chaussures italiennes en cuir.</p>
+        <p data-reveal>En tant que multimarques, nous vous proposons une vaste gamme de vêtements qui répondent aux exigences des hommes modernes, combinant sophistication et confort.</p>
+      </div>
+      <blockquote class="ab-sel__quote" data-reveal>
+        <p>La qualité est au cœur de notre philosophie.</p>
+      </blockquote>
     </div>
   </section>
 
-  <section class="chapters" data-header-theme="dark">
-    <h2 class="visually-hidden">L'esprit de la maison</h2>
-    <ol class="chapters__list">
-      <li class="chapter" data-reveal>
-        <span class="chapter__mark">1875</span>
-        <h3 class="chapter__title">Une maison familiale</h3>
-        <p>Depuis 1875, notre maison familiale incarne l'élégance et le raffinement, avec une collection de prêt-à-porter pour hommes qui allie modernité et tradition.</p>
-      </li>
-      <li class="chapter" data-reveal>
-        <span class="chapter__mark">L'Italie</span>
-        <h3 class="chapter__title">Une passion pour la mode à l'italienne</h3>
-        <p>Notre équipe dédiée sélectionne des pièces de qualité supérieure, parfaites pour les cérémonies et les occasions spéciales, jusqu'aux chaussures italiennes en cuir.</p>
-      </li>
-      <li class="chapter" data-reveal>
-        <span class="chapter__mark">L'atelier</span>
-        <h3 class="chapter__title">Un ajustement parfait</h3>
-        <p>Notre service de retouche personnalisé garantit un ajustement parfait, que vous optiez pour un look haut de gamme ou du sportswear chic.</p>
-      </li>
-    </ol>
-  </section>
-
-  <section class="gallery" data-header-theme="dark" data-companion="off">
-    <figure class="gallery__a" data-parallax-wrap><div class="reveal-img" data-reveal-img>{{img name="costume-ceremonie-croise" alt="Homme en costume de cérémonie marine à revers brodés, gilet et cravate assortis" sizes="(max-width: 760px) 100vw, 40vw" pos="50% 25%"}}</div></figure>
-    <figure class="gallery__b"><div class="reveal-img" data-reveal-img>{{img name="boutique-interieur" alt="Intérieur de la boutique : vestes, chemises et pantalons présentés sur un mur lumineux" sizes="(max-width: 760px) 100vw, 44vw"}}</div></figure>
-    <blockquote class="gallery__quote" data-reveal>
-      <p>La qualité est au cœur de notre philosophie.</p>
-    </blockquote>
-    <figure class="gallery__c"><div class="reveal-img" data-reveal-img>{{img name="ceintures-cuir-tressees" alt="Ceintures en cuir tressé" sizes="(max-width: 760px) 60vw, 22vw"}}</div></figure>
-  </section>
-
-  <section class="join" data-header-theme="dark">
-    <div class="join__media" data-parallax>{{img name="facade-boutique" alt="" sizes="100vw" pos="50% 45%"}}</div>
-    <div class="join__inner" data-reveal>
-      <h2 class="join__title">Rejoignez-nous à Maison Créange</h2>
-      <h3 class="join__sub">Votre style, notre passion</h3>
-      <p>Venez découvrir l'élégance raffinée et le service personnalisé que nous offrons. Que ce soit pour un costume, une tenue décontractée ou des accessoires, notre équipe est prête à vous aider à faire le meilleur choix.</p>
-      <div class="join__actions">
-        <a class="btn btn--light" href="/contactez-nous/#acces"><span class="btn__label">Visitez notre boutique</span></a>
-        <p class="join__addr">9 rue Maximilien de Sully, 66000 Perpignan<br>Du lundi au samedi, 10h – 12h30 et 14h – 19h</p>
+  <!-- IV. Savoir-faire, matières et retouches -->
+  <section class="ab-scene ab-craft" data-header-theme="dark" data-companion="off" data-ab="craft">
+    <div class="ab-stage">
+      <div class="ab-craft__light" aria-hidden="true"></div>
+      <figure class="ab-craft__piece" data-ab-piece>
+        {{cut name="cut-veste-croisee" alt="Veste croisée bleu marine à revers en pointe, présentée sur buste avec chemise et cravate" sizes="(max-width: 900px) 56vw, 30vw" class="ab-craft__img"}}
+      </figure>
+      <div class="ab-craft__head" data-ab-chead>
+        <p class="ab-kicker">III · Savoir-faire</p>
+        <h2 class="ab-craft__title"><span class="ab-craft__l"><span>Un ajustement</span></span><span class="ab-craft__l ab-craft__l--in"><span>parfait</span></span></h2>
       </div>
+      <svg class="tape ab-craft__tape" data-tape viewBox="0 0 600 40" aria-hidden="true" preserveAspectRatio="none">
+        <rect class="tape__band" x="0" y="6" width="600" height="28" />
+        <g class="tape__ticks"></g>
+      </svg>
+      <figure class="ab-detail ab-detail--revers" data-ab-detail data-depth="-70"><img src="/assets/img/detail-revers.webp" alt="Revers en pointe d'une veste marine, chemise rayée et cravate" width="407" height="412" loading="lazy" decoding="async"><figcaption>Le revers</figcaption></figure>
+      <figure class="ab-detail ab-detail--boutons" data-ab-detail data-depth="-30"><img src="/assets/img/detail-boutons.webp" alt="Bouton d'une veste croisée marine" width="362" height="351" loading="lazy" decoding="async"><figcaption>Le bouton</figcaption></figure>
+      <figure class="ab-detail ab-detail--col" data-ab-detail data-depth="-110"><img src="/assets/img/detail-col.webp" alt="Col d'une chemise blanche" width="560" height="485" loading="lazy" decoding="async"><figcaption>Le col</figcaption></figure>
+      <figure class="ab-detail ab-detail--poignet" data-ab-detail data-depth="-50"><img src="/assets/img/detail-poignet.webp" alt="Poignet d'une chemise, boutons nacrés" width="560" height="512" loading="lazy" decoding="async"><figcaption>Le poignet</figcaption></figure>
+      <div class="ab-craft__text" data-ab-ctext>
+        <p>Notre service de retouche personnalisé garantit un ajustement parfait, que vous optiez pour un look haut de gamme ou du sportswear chic.</p>
+        <a class="link-line" href="/contactez-nous/">Nous parler de votre retouche</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Emplacements réservés aux futures photographies originales de la maison.
+       Invisibles pour les visiteurs ; affichés avec ?emplacements dans l'adresse. -->
+  <aside class="ab-slots" data-ab-slots hidden aria-label="Emplacements photographiques à venir">
+    <p class="ab-kicker">Emplacements réservés · photographies originales à réaliser</p>
+    <div class="ab-slots__grid">
+      <figure class="ab-slot" data-slot="atelier-retouche"><span>Photographie à venir</span><strong>L'atelier de retouche</strong><small>mains, craie, mètre, épingles · format portrait 4:5 · fichier : apropos-atelier-retouche.jpg</small></figure>
+      <figure class="ab-slot" data-slot="matieres"><span>Photographie à venir</span><strong>Les étoffes de la boutique</strong><small>gros plan sur les tissus et les doublures · format carré · fichier : apropos-matieres.jpg</small></figure>
+      <figure class="ab-slot" data-slot="interieur-soir"><span>Photographie à venir</span><strong>La boutique à la tombée du jour</strong><small>intérieur éclairé vu de la vitrine · format paysage 3:2 · fichier : apropos-interieur-soir.jpg</small></figure>
+    </div>
+  </aside>
+
+  <!-- V. Invitation à la visite -->
+  <section class="ab-visit" data-header-theme="dark">
+    <div class="ab-visit__media" data-parallax>{{img name="facade-boutique" alt="" sizes="(max-width: 900px) 160vw, 100vw" pos="44% 22%"}}</div>
+    <div class="ab-visit__inner">
+      <div class="ab-visit__text" data-reveal>
+        <p class="ab-kicker">IV · La visite</p>
+        <h2 class="ab-visit__title">Rejoignez-nous à Maison Créange</h2>
+        <h3 class="ab-sub">Votre style, notre passion</h3>
+        <p>Venez découvrir l'élégance raffinée et le service personnalisé que nous offrons. Que ce soit pour un costume, une tenue décontractée ou des accessoires, notre équipe est prête à vous aider à faire le meilleur choix.</p>
+        <div class="ab-visit__actions">
+          <a class="btn btn--light" href="/contactez-nous/#acces"><span class="btn__label">Visitez notre boutique</span></a>
+          <a class="link-line" href="tel:+33468342927">+33 4 68 34 29 27</a>
+        </div>
+      </div>
+      <dl class="ab-visit__info" data-reveal>
+        <div><dt>Adresse</dt><dd>9 rue Maximilien de Sully<br>66000 Perpignan</dd></div>
+        <div><dt>Horaires</dt><dd>Du lundi au samedi<br>10h – 12h30 et 14h – 19h</dd></div>
+      </dl>
+      <figure class="ab-visit__inset" data-ab-speed="-10"><div class="reveal-img" data-reveal-img>{{img name="boutique-interieur" alt="Intérieur de la boutique : vestes, chemises et pantalons présentés sur un mur lumineux" sizes="(max-width: 900px) 52vw, 24vw"}}</div><figcaption>L'intérieur de la boutique</figcaption></figure>
     </div>
   </section>
 </main>

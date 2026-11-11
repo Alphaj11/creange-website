@@ -487,6 +487,86 @@
   }
 
   /* ---------------------------------------------------------
+     5 ter. Page À propos : visite éditoriale pilotée par le défilement
+     --------------------------------------------------------- */
+  function aboutScenes() {
+    if (!document.body.classList.contains('page-about')) return;
+    // emplacements réservés aux futures photographies : visibles avec ?emplacements
+    const slots = $('[data-ab-slots]');
+    if (slots && /[?&]emplacements\b/.test(location.search)) slots.hidden = false;
+    if (!motion) return;
+
+    const mm = gsap.matchMedia();
+    mm.add({ desk: '(min-width: 901px)', mob: '(max-width: 900px)' }, (ctx) => {
+      const m = ctx.conditions.mob;
+      const st = (el) => ({ trigger: el, start: 'top top', end: 'bottom bottom', scrub: m ? .6 : 1 });
+
+      // I. la façade : le regard s'approche de l'enseigne, le texte s'efface
+      const hero = $('[data-ab="hero"]');
+      if (hero) {
+        gsap.timeline({ scrollTrigger: st(hero) })
+          .fromTo($('[data-ab-media]', hero), { scale: 1.02 }, { scale: m ? 1.22 : 1.3, ease: 'none', duration: 1 }, 0)
+          .to($('[data-ab-copy]', hero), { y: m ? -40 : -80, opacity: 0, ease: 'power1.in', duration: .4 }, .3)
+          .to($('[data-ab-veil]', hero), { opacity: .75, ease: 'none', duration: .4 }, .6);
+      }
+
+      // II. 1875 : l'enseigne se découvre, l'année se remplit, puis la frise se trace
+      const or = $('[data-ab="origins"]');
+      if (or) {
+        // l'enseigne et le titre se découvrent pendant que la scène arrive (aucun écran vide)
+        gsap.timeline({ scrollTrigger: { trigger: or, start: 'top 85%', end: 'top top', scrub: m ? .6 : 1 } })
+          .to($('[data-ab-sign]', or), { clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .6 }, 0)
+          .fromTo($('[data-ab-head]', or), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .4 }, .45);
+        const tl = gsap.timeline({ scrollTrigger: st(or) });
+        tl.fromTo($('[data-ab-sign] img', or), { scale: 1.15 }, { scale: 1, ease: 'none', duration: 1 }, 0)
+          .to($('[data-ab-year]', or), { clipPath: 'inset(0 0% 0 0)', ease: 'none', duration: .32 }, 0)
+          .fromTo($('[data-ab-lead]', or), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .06);
+        if (m) {
+          // le texte laisse la place à la frise, l'année s'estompe
+          tl.to($('[data-ab-lead]', or), { opacity: 0, y: -24, duration: .08 }, .4)
+            .to($('.ab-year', or), { opacity: .35, duration: .1 }, .4);
+        }
+        const t0 = m ? .44 : .36;
+        tl.to($('[data-ab-line]', or), { '--line': 1, ease: 'none', duration: .3 }, t0);
+        $$('[data-ab-stop]', or).forEach((li, i) => {
+          tl.fromTo(li, { opacity: 0, y: m ? 0 : 20, x: m ? -14 : 0 }, { opacity: 1, y: 0, x: 0, duration: .1 }, t0 + .04 + i * .1);
+        });
+        tl.to({}, { duration: .08 });
+      }
+
+      // IV. l'atelier : la pièce s'éclaire, les détails gravitent, le mètre se déroule
+      const cr = $('[data-ab="craft"]');
+      if (cr) {
+        const tl = gsap.timeline({ scrollTrigger: st(cr) });
+        tl.fromTo($('[data-ab-piece]', cr), { opacity: .22, y: 70, scale: .94 }, { opacity: 1, y: 0, scale: 1, ease: 'power2.out', duration: .2 }, 0)
+          .to($('[data-ab-chead] .ab-kicker', cr), { opacity: 1, duration: .08 }, .04)
+          .fromTo($$('.ab-craft__l > span', cr), { yPercent: 110 }, { yPercent: 0, y: 0, stagger: .05, ease: 'power3.out', duration: .14 }, .06)
+          .fromTo($('.ab-craft__tape', cr), { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: .2 }, .18);
+        $$('[data-ab-detail]', cr).forEach((d, i) => {
+          const depth = parseFloat(d.dataset.depth || '-40');
+          tl.fromTo(d, { opacity: 0, y: -depth, scale: .9 }, { opacity: 1, y: 0, scale: 1, ease: 'power2.out', duration: .14 }, .2 + i * .07)
+            .to(d, { y: depth * (m ? .4 : 1), ease: 'none', duration: .5 }, .36 + i * .07);
+        });
+        if (m) {
+          tl.to($$('[data-ab-detail]', cr), { opacity: 0, duration: .08 }, .66)
+            .to($('[data-ab-piece]', cr), { opacity: .3, duration: .1 }, .66)
+            .fromTo($('[data-ab-ctext]', cr), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .1 }, .72);
+        } else {
+          tl.fromTo($('[data-ab-ctext]', cr), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .56);
+        }
+        tl.to({}, { duration: .12 });
+      }
+
+      // III et V. plans superposés qui glissent à des vitesses différentes
+      $$('[data-ab-speed]').forEach((el) => {
+        const v = parseFloat(el.dataset.abSpeed) * (m ? .6 : 1);
+        gsap.fromTo(el, { yPercent: -v }, { yPercent: v, ease: 'none', scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+      return () => {};
+    });
+  }
+
+  /* ---------------------------------------------------------
      6. Animations de défilement
      --------------------------------------------------------- */
   function splitWords(el) {
@@ -558,7 +638,7 @@
     });
 
     // mètre de tailleur qui se déroule
-    $$('[data-tape]:not(.atelier__tape)').forEach((svg) => {
+    $$('[data-tape]:not(.atelier__tape):not(.ab-craft__tape)').forEach((svg) => {
       gsap.fromTo(svg, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: svg, start: 'top 92%', end: 'top 50%', scrub: true } });
     });
 
@@ -734,12 +814,14 @@
     root.classList.add('no-intro');
     if (intro) intro.remove();
     scenes();
+    aboutScenes();
     if (companion) companion.start();
     return;
   }
 
   scrollAnimations();
   scenes();
+  aboutScenes();
 
   const begin = () => {
     heroIn();

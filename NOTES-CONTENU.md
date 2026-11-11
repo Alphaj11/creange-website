@@ -50,3 +50,12 @@ Uniquement des intitulés de mise en scène, sans aucune information nouvelle su
 - Photo retirée de l'accueil : le costume trois-pièces bleu roi sur mannequin (fond blanc, cadrage faible). Elle reste dans le dossier des images.
 - Photo ajoutée : `homme-costume-bleu` (déjà fournie par l'ancien site, jusqu'ici inutilisée) et trois recadrages : revers brodé et gilet du costume de cérémonie, nœud de la cravate à pois.
 - Aucun texte, chiffre, coordonnée ou mention légale n'a été modifié.
+
+## Page À propos, version éditoriale (11/11/2026)
+- Structure : présentation (façade) · I Histoire et héritage (1875) · II La sélection · III Savoir-faire · IV La visite.
+- Tous les textes d'origine sont conservés mot pour mot (titre, chapeau, « Notre histoire », « Tradition et innovation », les trois paragraphes 1875 / Italie / atelier, la citation, « Rejoignez-nous… », adresse et horaires). Le paragraphe « En tant que multimarques… » vient de l'accueil.
+- Intitulés ajoutés (mise en scène uniquement) : surtitres « I · Histoire et héritage », « II · La sélection », « III · Savoir-faire », « IV · La visite », « Entrer dans la maison », légendes « L'enseigne, 9 rue Maximilien de Sully », « Le cuir tressé », « Le revers », « Le bouton », « Le col », « Le poignet », « L'intérieur de la boutique », lien « Nous parler de votre retouche ».
+- Frise : trois repères seulement, tous tirés des textes existants (1875 maison familiale à Perpignan ; prêt-à-porter alliant modernité et tradition ; aujourd'hui 9 rue Maximilien de Sully avec les prestations listées). Aucune date ni aucun événement ajouté : l'ancien site n'en donne pas d'autre que 1875. Des dates réelles (changement de génération, déménagement, etc.) pourront être ajoutées si le client les fournit.
+- Nouveaux recadrages de photos existantes : `enseigne-creange.webp` (lettres de l'enseigne, tirée de la photo de façade) et `matiere-cuir-tresse.webp` (ceintures tressées). Aucune image générée.
+- Emplacements réservés à de futures photographies originales (atelier de retouche, étoffes de la boutique, intérieur à la tombée du jour) : masqués pour les visiteurs, visibles en ajoutant `?emplacements` à l'adresse de la page.
+- À signaler : la ligne « Une maison transmise… » de l'accueil est une formulation déduite de « maison familiale », non une information vérifiée.
