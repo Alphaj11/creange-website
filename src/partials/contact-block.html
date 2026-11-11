@@ -1,0 +1,47 @@
+<div class="contact-grid">
+  <div class="contact-card" data-reveal>
+    <h3 class="contact-card__h">Prendre contact</h3>
+    <dl class="coords">
+      <div><dt>Téléphone</dt><dd><a href="tel:+33468342927">+33 4 68 34 29 27</a></dd></div>
+      <div><dt>Courriel</dt><dd><a href="mailto:creangeexclusif@hotmail.fr">creangeexclusif@hotmail.fr</a></dd></div>
+      <div><dt>Adresse</dt><dd>9 rue Maximilien de Sully<br>66000 Perpignan, France</dd></div>
+      <div><dt>Horaires</dt><dd>Du lundi au samedi<br>10h – 12h30 et 14h – 19h</dd></div>
+    </dl>
+  </div>
+  <form class="contact-form" data-contact-form novalidate
+        action="https://formsubmit.co/ajax/creangeexclusif@hotmail.fr" method="post">
+    <input type="hidden" name="_subject" value="Nouveau message depuis creangeboutique.com">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <div class="field field--honey" aria-hidden="true"><label>Ne pas remplir<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+    <div class="field">
+      <label for="f-nom-{{formId}}">Nom <span aria-hidden="true">*</span></label>
+      <input id="f-nom-{{formId}}" name="Nom" type="text" maxlength="200" required autocomplete="name">
+      <p class="field__error" hidden>Ce champ est obligatoire.</p>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="f-mail-{{formId}}">Courriel <span aria-hidden="true">*</span></label>
+        <input id="f-mail-{{formId}}" name="email" type="email" maxlength="200" required autocomplete="email" inputmode="email">
+        <p class="field__error" hidden>Indiquez une adresse e-mail valide pour recevoir notre réponse.</p>
+      </div>
+      <div class="field">
+        <label for="f-tel-{{formId}}">Téléphone <span class="field__opt">(facultatif)</span></label>
+        <input id="f-tel-{{formId}}" name="Téléphone" type="tel" maxlength="40" autocomplete="tel" inputmode="tel">
+      </div>
+    </div>
+    <div class="field">
+      <label for="f-msg-{{formId}}">Message</label>
+      <textarea id="f-msg-{{formId}}" name="Message" rows="6" maxlength="2500"></textarea>
+    </div>
+    <div class="field field--check">
+      <input id="f-rgpd-{{formId}}" name="Consentement" type="checkbox" value="Oui" required>
+      <label for="f-rgpd-{{formId}}">Je consens par la présente à ce que ces données soient stockées et traitées dans le but d'établir un contact. Je sais que je peux révoquer mon consentement à tout moment <span aria-hidden="true">*</span></label>
+      <p class="field__error" hidden>Ce champ est obligatoire.</p>
+    </div>
+    <div class="form-foot">
+      <button class="btn btn--solid" type="submit"><span class="btn__label">Envoyer</span></button>
+      <p class="form-status" role="status" aria-live="polite" hidden></p>
+    </div>
+  </form>
+</div>

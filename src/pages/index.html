@@ -1,0 +1,272 @@
+<!--meta {
+  "title": "Maison Créange · Mode masculine et accessoires à Perpignan depuis 1875",
+  "description": "Maison familiale fondée en 1875 à Perpignan : prêt-à-porter masculin, costumes et tenues de cérémonie, sportswear chic, cravates, écharpes, chaussures italiennes en cuir et retouches personnalisées.",
+  "formId": "home"
+} -->
+{{> head}}
+<body class="page-home" data-page="home">
+{{> tie}}
+
+<!-- Ouverture : la cravate en soie se noue (photographie détourée en deux couches) -->
+<div class="intro" data-intro aria-hidden="true">
+  <div class="intro__stage">
+    <div class="intro__tie">
+      <img class="intro__blade" src="/assets/img/cut-cravate-430.webp" alt="" decoding="async">
+      <img class="intro__knot" src="/assets/img/cut-cravate-430.webp" alt="" decoding="async">
+    </div>
+    <p class="intro__name">
+      <span class="intro__maison"><span>Maison</span></span>
+      <span class="intro__word" aria-label="Créange"><span>C</span><span>r</span><span>é</span><span>a</span><span>n</span><span>g</span><span>e</span></span>
+    </p>
+    <p class="intro__since"><span>Perpignan, depuis 1875</span></p>
+  </div>
+  <button class="intro__skip" type="button" data-intro-skip tabindex="-1">Passer</button>
+</div>
+
+{{> header}}
+{{> companion}}
+
+<main id="contenu">
+
+  <!-- SCÈNE 01 — L'entrée dans la maison -->
+  <section class="scene scene--entree" id="entree" data-scene="entree" data-header-theme="dark" data-companion="off">
+    <div class="stage">
+      <div class="stage__decor stage__decor--facade" data-cam>
+        {{img name="facade-boutique" alt="La façade en pierre de la boutique Créange, rue Maximilien de Sully à Perpignan" sizes="100vw" eager pos="49% 62%"}}
+      </div>
+      <div class="stage__decor stage__decor--interieur" data-cam-2>
+        {{img name="boutique-interieur" alt="" sizes="100vw"}}
+      </div>
+      <div class="stage__light" aria-hidden="true"></div>
+      <div class="entree__copy">
+        <p class="hero__kicker" data-hero-line>Maison familiale, Perpignan</p>
+        <h1 class="hero__title">
+          <span class="line"><span data-hero-line>L'élégance</span></span>
+          <span class="line"><span data-hero-line>traverse</span></span>
+          <span class="line"><span data-hero-line>le temps.</span></span>
+        </h1>
+        <p class="hero__sub" data-hero-line>Depuis 1875, Maison Créange cultive l'art de l'élégance masculine à Perpignan.</p>
+        <div class="hero__actions" data-hero-line>
+          <a class="btn btn--light" href="/a-propos-de-nous/"><span class="btn__label">Découvrir la maison</span></a>
+          <a class="link-line link-line--light" href="#costumes">Entrer dans la boutique</a>
+        </div>
+      </div>
+      <p class="entree__threshold" data-threshold>Bienvenue chez Créange</p>
+      <a class="scroll-cue" href="#manifeste" aria-label="Faire défiler vers la suite">
+        <span class="scroll-cue__text">Défiler</span>
+        <span class="scroll-cue__line" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Manifeste : texte d'origine de l'accueil -->
+  <section class="manifesto" id="manifeste" data-header-theme="light" data-companion="on">
+    <div class="manifesto__inner">
+      <h2 class="manifesto__title" data-split>Découvrez l'univers de la mode masculine avec Créange</h2>
+      <div class="manifesto__cols">
+        <p class="manifesto__lead" data-reveal><span class="dropcap">D</span>epuis 1875, notre maison familiale incarne l'élégance et le raffinement, offrant une collection de prêt-à-porter pour hommes qui allie modernité et tradition. Avec une passion pour la mode à l'italienne, notre équipe dédiée sélectionne des pièces de qualité supérieure, parfaites pour les cérémonies et les occasions spéciales.</p>
+        <div class="manifesto__side" data-reveal>
+          <p>Notre service de retouche personnalisé garantit un ajustement parfait, vous permettant de vous distinguer avec style, que vous optiez pour un look haut de gamme ou du sportswear chic.</p>
+          <p>En tant que multimarques, nous vous proposons une vaste gamme de vêtements qui répondent aux exigences des hommes modernes, combinant sophistication et confort. Que vous recherchiez des pièces élégantes pour une soirée ou des vêtements décontractés pour le quotidien, notre expertise se retrouve dans chaque détail, car la qualité est au cœur de notre philosophie.</p>
+          <a class="link-line" href="#costumes">Découvrez nos collections</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCÈNE 02 — Les costumes -->
+  <section class="scene scene--costume" id="costumes" data-scene="costume" data-header-theme="dark" data-companion="off">
+    <div class="stage">
+      <div class="stage__decor" data-cam>
+        {{img name="boutique-interieur" alt="" sizes="100vw" pos="50% 75%"}}
+      </div>
+      <div class="stage__light" aria-hidden="true"></div>
+      <div class="product product--veste" data-product>
+        <div class="product__shadow" aria-hidden="true"></div>
+        {{cut name="cut-veste-croisee" alt="Veste croisée bleu marine à revers en pointe, six boutons, présentée sur buste avec chemise et cravate" sizes="(max-width: 900px) 70vw, 32vw" class="product__img"}}
+        <ul class="hotspots" aria-label="Détails de la veste">
+          <li class="hotspot" style="--x:.72;--y:.14" data-hotspot>
+            <span class="hotspot__dot" aria-hidden="true"></span>
+            <figure class="hotspot__card hotspot__card--right"><img src="/assets/img/detail-revers.webp" alt="Revers en pointe de la veste croisée" loading="lazy" width="407" height="412"><figcaption>Les revers</figcaption></figure>
+          </li>
+          <li class="hotspot" style="--x:.78;--y:.33" data-hotspot>
+            <span class="hotspot__dot" aria-hidden="true"></span>
+            <figure class="hotspot__card hotspot__card--right hotspot__card--low"><img src="/assets/img/detail-tissu.webp" alt="Tissu marine et poche poitrine" loading="lazy" width="343" height="335"><figcaption>Le tissu</figcaption></figure>
+          </li>
+          <li class="hotspot" style="--x:.64;--y:.57" data-hotspot>
+            <span class="hotspot__dot" aria-hidden="true"></span>
+            <figure class="hotspot__card hotspot__card--left"><img src="/assets/img/detail-boutons.webp" alt="Boutons de la fermeture croisée" loading="lazy" width="362" height="351"><figcaption>Les boutons</figcaption></figure>
+          </li>
+          <li class="hotspot" style="--x:.14;--y:.15" data-hotspot>
+            <span class="hotspot__dot" aria-hidden="true"></span>
+            <figure class="hotspot__card hotspot__card--left"><img src="/assets/img/detail-epaule.webp" alt="Ligne d'épaule et carrure de la veste" loading="lazy" width="380" height="397"><figcaption>La coupe</figcaption></figure>
+          </li>
+        </ul>
+      </div>
+      <div class="scene__copy scene__copy--left" data-copy>
+        <p class="scene__index">Le portant</p>
+        <h2 class="scene__title">Costumes et tenues de cérémonie</h2>
+        <p>Avec une passion pour la mode à l'italienne, notre équipe sélectionne des pièces de qualité supérieure, parfaites pour les cérémonies et les occasions spéciales.</p>
+        <p class="scene__note">Les revers, la coupe, le tissu, les boutons : chaque détail compte.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCÈNE 03 — Les chemises -->
+  <section class="scene scene--chemise" id="chemises" data-scene="chemise" data-header-theme="dark" data-companion="off">
+    <div class="stage">
+      <div class="stage__decor" data-cam>
+        {{img name="boutique-interieur" alt="" sizes="100vw" pos="10% 35%"}}
+      </div>
+      <div class="stage__light" aria-hidden="true"></div>
+      <div class="product product--chemise" data-product>
+        <div class="product__shadow" aria-hidden="true"></div>
+        {{cut name="cut-chemise" alt="Chemise blanche pliée, col italien et boutons nacrés" sizes="(max-width: 900px) 80vw, 40vw" class="product__img"}}
+      </div>
+      <figure class="loupe loupe--col" data-loupe><img src="/assets/img/detail-col.webp" alt="Le col de la chemise blanche" loading="lazy" width="560" height="485"><figcaption>Le col</figcaption></figure>
+      <figure class="loupe loupe--poignet" data-loupe><img src="/assets/img/detail-poignet.webp" alt="Le poignet et ses boutons" loading="lazy" width="560" height="512"><figcaption>Le poignet</figcaption></figure>
+      <div class="scene__copy scene__copy--left" data-copy>
+        <p class="scene__index">L'étagère</p>
+        <h2 class="scene__title">Collection masculine</h2>
+        <p>Une vaste gamme de vêtements pour hommes, combinant confort et style. Découvrez les dernières tendances et nos pièces.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCÈNE 04 — Les accessoires -->
+  <section class="scene scene--accessoires" id="accessoires" data-scene="accessoires" data-header-theme="dark" data-companion="off">
+    <div class="stage">
+      <div class="stage__decor" data-cam>
+        {{img name="boutique-interieur" alt="" sizes="100vw" pos="85% 70%"}}
+      </div>
+      <div class="stage__light" aria-hidden="true"></div>
+      <figure class="vitrine vitrine--ceintures" data-vitrine>{{img name="ceintures-cuir-tressees" alt="Ceintures en cuir tressé cognac, marine et kaki" sizes="(max-width: 900px) 40vw, 18vw"}}</figure>
+      <figure class="vitrine vitrine--chaussettes" data-vitrine>{{img name="chaussettes" alt="Chaussettes écru, sable, marine et noir en boutique" sizes="(max-width: 900px) 46vw, 22vw"}}</figure>
+      <div class="product product--cravate" data-product>
+        <div class="product__swing" data-swing>
+          {{cut name="cut-cravate" alt="Cravate en soie marine à pois, nouée" sizes="(max-width: 900px) 30vw, 12vw" class="product__img"}}
+        </div>
+      </div>
+      <div class="scene__copy scene__copy--right" data-copy>
+        <p class="scene__index">Les détails</p>
+        <h2 class="scene__title">Accessoires élégants</h2>
+        <p>Complétez votre look avec nos accessoires soigneusement sélectionnés, allant des cravates aux écharpes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCÈNE 05 — Les chaussures -->
+  <section class="scene scene--chaussures" id="chaussures" data-scene="chaussures" data-header-theme="dark" data-companion="off">
+    <div class="stage">
+      <div class="stage__decor" data-cam>
+        {{img name="chaussures-italiennes-vitrine" alt="" sizes="100vw" pos="50% 60%"}}
+      </div>
+      <div class="stage__light" aria-hidden="true"></div>
+      <div class="plinth" aria-hidden="true"></div>
+      <div class="product product--chaussures" data-product>
+        <div class="product__shadow" aria-hidden="true"></div>
+        <div class="product__body">
+          {{cut name="cut-richelieus" alt="Paire de richelieus en cuir italien cognac patiné" sizes="(max-width: 900px) 80vw, 38vw" class="product__img"}}
+
+        </div>
+      </div>
+      <div class="scene__copy scene__copy--left" data-copy>
+        <p class="scene__index">Le pas</p>
+        <h2 class="scene__title">Collection chaussures</h2>
+        <p class="scene__lead">Les chaussures italiennes en cuir sont synonymes d'élégance et de savoir-faire exceptionnel.</p>
+        <p>Chaque paire est le fruit d'une fabrication soigneuse, où l'artisanat traditionnel rencontre un design moderne. La qualité et l'esthétique de nos chaussures offrent un confort inégalé et une allure raffinée. Opter pour des chaussures en cuir italien, c'est choisir l'élégance à chaque pas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCÈNE 06 — Le savoir-faire -->
+  <section class="atelier" id="savoir-faire" data-header-theme="light" data-companion="on">
+    <div class="atelier__grid">
+      <figure class="atelier__img" data-parallax-wrap>
+        <div class="reveal-img" data-reveal-img>{{img name="costume-ceremonie-croise" alt="Homme en costume de cérémonie marine à revers brodés, gilet et cravate assortis" sizes="(max-width: 760px) 100vw, 40vw" pos="50% 25%"}}</div>
+      </figure>
+      <div class="atelier__text">
+        <p class="section-index">Le savoir-faire</p>
+        <h2 class="display" data-split>Un ajustement parfait</h2>
+        <p data-reveal>Notre service de retouche personnalisé garantit un ajustement parfait, vous permettant de vous distinguer avec style. Chaque pièce est ajustée à votre silhouette.</p>
+        <svg class="tape" data-tape viewBox="0 0 600 40" aria-hidden="true" preserveAspectRatio="none">
+          <rect class="tape__band" x="0" y="6" width="600" height="28" />
+          <g class="tape__ticks"></g>
+        </svg>
+        <p data-reveal>Venez découvrir l'élégance raffinée et le service personnalisé que nous offrons. Que ce soit pour un costume, une tenue décontractée ou des accessoires, notre équipe est prête à vous aider à faire le meilleur choix.</p>
+        <a class="link-line" href="/contactez-nous/">Nous parler de votre retouche</a>
+      </div>
+      <figure class="atelier__ceremonie">
+        <div class="reveal-img" data-reveal-img>{{img name="costume-trois-pieces-ceremonie" alt="Costume trois-pièces bleu roi avec nœud papillon et boutonnière blanche" sizes="(max-width: 760px) 60vw, 22vw" pos="50% 30%"}}</div>
+        <figcaption>Tenues de cérémonie</figcaption>
+      </figure>
+    </div>
+
+    <div class="offer" data-reveal>
+      <h3 class="offer__title">Ce que vous trouverez chez nous</h3>
+      <ul class="offer__list">
+        <li><span class="offer__name">Prêt-à-porter masculin</span><span class="offer__note">Pièces de qualité supérieure, sélectionnées avec passion pour la mode italienne</span></li>
+        <li><span class="offer__name">Costumes et tenues de cérémonie</span><span class="offer__note">Pour les cérémonies et les occasions spéciales</span></li>
+        <li><span class="offer__name">Sportswear chic</span><span class="offer__note">Des vêtements décontractés pour le quotidien</span></li>
+        <li><span class="offer__name">Cravates, écharpes et accessoires</span><span class="offer__note">Des accessoires soigneusement sélectionnés</span></li>
+        <li><span class="offer__name">Chaussures italiennes en cuir</span><span class="offer__note">L'élégance à chaque pas</span></li>
+        <li><span class="offer__name">Retouches personnalisées</span><span class="offer__note">Pour un ajustement parfait</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SCÈNE 07 — La Maison Créange -->
+  <section class="heritage" id="maison" data-header-theme="dark" data-companion="off">
+    <div class="heritage__bg" data-parallax>
+      {{img name="facade-angle" alt="" sizes="100vw" pos="60% 40%"}}
+    </div>
+    <div class="heritage__inner">
+      <p class="heritage__year" aria-hidden="true"><span data-year>1875</span></p>
+      <div class="heritage__card" data-reveal>
+        <h2 class="heritage__title">À propos de Maison Créange</h2>
+        <h3 class="heritage__sub">L'héritage de l'élégance à Perpignan</h3>
+        <p>Depuis 1875, Créange se dédie à l'art de la mode masculine et aux accessoires de haute qualité.</p>
+        <p>Nous offrons une large gamme de vêtements pour hommes, de détails de mode raffinés, ainsi qu'un service de retouche pour un ajustement parfait. Venez découvrir notre boutique de costumes et nos options pour les cérémonies.</p>
+        <a class="btn btn--light" href="/a-propos-de-nous/"><span class="btn__label">Lire notre histoire</span></a>
+      </div>
+    </div>
+    <ol class="heritage__line" data-reveal aria-label="Repères">
+      <li><span class="heritage__mark">1875</span><span>Fondation de la maison familiale</span></li>
+      <li><span class="heritage__mark">Tradition</span><span>Une maison transmise, attachée à la qualité</span></li>
+      <li><span class="heritage__mark">Aujourd'hui</span><span>Rue Maximilien de Sully, au cœur de Perpignan</span></li>
+    </ol>
+  </section>
+
+  <section class="figures" data-header-theme="dark" data-companion="off">
+    <h2 class="visually-hidden">Maison Créange en chiffres</h2>
+    <ul class="figures__list">
+      <li class="figure">
+        <p class="figure__value"><span data-count="55">55</span> <span class="figure__unit">ans</span></p>
+        <p class="figure__label">Années d'expérience</p>
+      </li>
+      <li class="figure">
+        <p class="figure__value"><span data-count="25">25</span> <span class="figure__unit">fournisseurs</span></p>
+        <p class="figure__label">Collections uniques</p>
+      </li>
+      <li class="figure">
+        <p class="figure__value"><span data-count="3.5" data-decimals="1">3.5</span><span class="figure__unit">k</span></p>
+        <p class="figure__label">Clients satisfaits</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="contact" id="contact" data-header-theme="light" data-companion="on">
+    <div class="contact__head">
+      <p class="section-index">Nous rendre visite</p>
+      <h2 class="display" data-split>Écrivez-nous ou passez nous voir</h2>
+      <p data-reveal>Une question, une cérémonie à préparer, une retouche ? Notre équipe vous répond, ou vous accueille au 9 rue Maximilien de Sully.</p>
+    </div>
+    {{> contact-block}}
+    {{> map}}
+  </section>
+</main>
+
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

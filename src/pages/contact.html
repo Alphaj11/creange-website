@@ -1,0 +1,63 @@
+<!--meta {
+  "title": "Contactez-nous · Maison Créange, 9 rue Maximilien de Sully, Perpignan",
+  "description": "Voir les moyens de nous contacter : téléphone, courriel, formulaire, adresse et plan d'accès de la boutique Maison Créange à Perpignan.",
+  "formId": "contact"
+} -->
+{{> head}}
+<body class="page-contact" data-page="contact">
+{{> tie}}
+{{> header}}
+{{> companion}}
+<main id="contenu">
+
+  <section class="page-hero page-hero--contact" data-header-theme="dark" data-companion="off">
+    <div class="page-hero__media" data-hero-media>
+      {{img name="facade-boutique" alt="Entrée de la boutique Créange, façade en pierre et vitrines" sizes="100vw" eager pos="50% 45%"}}
+    </div>
+    <div class="page-hero__copy">
+      <p class="hero__kicker" data-hero-line>À propos de Maison Créange</p>
+      <h1 class="page-hero__title"><span class="line"><span data-hero-line>Contactez-nous</span></span></h1>
+      <p class="page-hero__lead" data-hero-line>9 rue Maximilien de Sully, au cœur de Perpignan. Du lundi au samedi.</p>
+    </div>
+  </section>
+
+  <section class="contact contact--page" data-header-theme="light">
+    <div class="quick">
+      <a class="quick__item" href="tel:+33468342927" data-reveal>
+        <span class="quick__label">Appeler la boutique</span>
+        <span class="quick__value">+33 4 68 34 29 27</span>
+      </a>
+      <a class="quick__item" href="mailto:creangeexclusif@hotmail.fr" data-reveal>
+        <span class="quick__label">Écrire un courriel</span>
+        <span class="quick__value quick__value--mail">creangeexclusif@hotmail.fr</span>
+      </a>
+      <a class="quick__item" href="#acces" data-reveal>
+        <span class="quick__label">Venir en boutique</span>
+        <span class="quick__value">9 rue Maximilien de Sully</span>
+      </a>
+    </div>
+    <div class="contact__head">
+      <h2 class="display" data-split>Écrivez-nous</h2>
+      <p data-reveal>Remplissez le formulaire ci-dessous : votre message nous est transmis directement par courriel et nous vous répondons à l'adresse que vous indiquez.</p>
+    </div>
+    {{> contact-block}}
+  </section>
+
+  <section class="access" data-header-theme="light">
+    <div class="access__grid">
+      <div class="access__text">
+        <h2 class="display" data-split>Venir à la boutique</h2>
+        <address class="access__addr" data-reveal>Maison Créange<br>9 rue Maximilien de Sully<br>66000 Perpignan, France</address>
+        <dl class="access__hours" data-reveal>
+          <dt>Du lundi au samedi</dt><dd>10h – 12h30<br>14h – 19h</dd>
+        </dl>
+        <figure class="access__facade"><div class="reveal-img" data-reveal-img>{{img name="facade-angle" alt="La boutique Créange à l'angle de la rue" sizes="(max-width: 760px) 100vw, 30vw"}}</div></figure>
+      </div>
+      {{> map}}
+    </div>
+  </section>
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

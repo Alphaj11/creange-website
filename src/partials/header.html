@@ -1,0 +1,36 @@
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <a class="brand" href="/" aria-label="Maison Créange, retour à l'accueil">
+      <svg class="brand__knot" viewBox="0 0 60 200" aria-hidden="true"><use href="#tie"/></svg>
+      <span class="brand__words"><span class="brand__maison">Maison</span><span class="brand__name">Créange</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <ul>
+        <li><a href="/"{{navHome}}>Accueil</a></li>
+        <li><a href="/a-propos-de-nous/"{{navAbout}}>À propos de nous</a></li>
+        <li><a href="/contactez-nous/"{{navContact}}>Contactez-nous</a></li>
+      </ul>
+    </nav>
+    <a class="header-tel" href="tel:+33468342927">04 68 34 29 27</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-mobile">
+      <span class="menu-toggle__label">Menu</span>
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+<div class="menu-mobile" id="menu-mobile" hidden>
+  <nav aria-label="Navigation mobile">
+    <ol class="menu-mobile__list">
+      <li><a href="/"{{navHome}}>Accueil</a></li>
+      <li><a href="/a-propos-de-nous/"{{navAbout}}>À propos de nous</a></li>
+      <li><a href="/contactez-nous/"{{navContact}}>Contactez-nous</a></li>
+      <li><a href="/avis-juridique/"{{navLegal}}>Avis juridique</a></li>
+    </ol>
+  </nav>
+  <div class="menu-mobile__foot">
+    <p>9 rue Maximilien de Sully<br>66000 Perpignan</p>
+    <p><a href="tel:+33468342927">+33 4 68 34 29 27</a><br><a href="mailto:creangeexclusif@hotmail.fr">creangeexclusif@hotmail.fr</a></p>
+  </div>
+</div>
+<div class="curtain" aria-hidden="true"><svg class="curtain__tie" viewBox="0 0 60 200"><use href="#tie"/></svg></div>

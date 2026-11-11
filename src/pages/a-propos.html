@@ -1,0 +1,84 @@
+<!--meta {
+  "title": "À propos de nous · Maison Créange, Perpignan depuis 1875",
+  "description": "Maison Créange, le pilier de la mode masculine depuis 1875 à Perpignan, offrant des vêtements, accessoires et services de retouche de haute qualité."
+} -->
+{{> head}}
+<body class="page-about" data-page="about">
+{{> tie}}
+{{> header}}
+{{> companion}}
+<main id="contenu">
+
+  <section class="page-hero page-hero--about" data-header-theme="dark" data-companion="off">
+    <div class="page-hero__media" data-hero-media>
+      {{img name="veste-croisee-marine" alt="" sizes="100vw" eager pos="50% 30%"}}
+    </div>
+    <div class="page-hero__copy">
+      <p class="hero__kicker" data-hero-line>Notre histoire</p>
+      <h1 class="page-hero__title"><span class="line"><span data-hero-line>À propos de</span></span> <span class="line"><span data-hero-line>Maison Créange</span></span></h1>
+      <p class="page-hero__lead" data-hero-line>Le pilier de la mode masculine depuis 1875 à Perpignan.</p>
+    </div>
+    <p class="hero__year" aria-hidden="true">1875</p>
+  </section>
+
+  <section class="story" data-header-theme="light">
+    <div class="story__grid">
+      <div class="story__text">
+        <h2 class="display" data-split>Notre histoire</h2>
+        <h3 class="story__sub" data-reveal>Tradition et innovation</h3>
+        <p class="story__lead" data-reveal><span class="dropcap">D</span>epuis 1875, Maison Créange se positionne comme un leader dans le domaine de la mode masculine et des accessoires à Perpignan. Nous nous engageons à offrir des produits de qualité, alliant tradition et modernité, afin que chaque client trouve son style unique.</p>
+      </div>
+      <figure class="story__facade">
+        <div class="reveal-img" data-reveal-img>{{img name="facade-angle" alt="La façade de la boutique Créange en pierre, à l'angle de la rue, à Perpignan" sizes="(max-width: 760px) 100vw, 52vw"}}</div>
+        <figcaption>La boutique, 9 rue Maximilien de Sully</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="chapters" data-header-theme="dark">
+    <h2 class="visually-hidden">L'esprit de la maison</h2>
+    <ol class="chapters__list">
+      <li class="chapter" data-reveal>
+        <span class="chapter__mark">1875</span>
+        <h3 class="chapter__title">Une maison familiale</h3>
+        <p>Depuis 1875, notre maison familiale incarne l'élégance et le raffinement, avec une collection de prêt-à-porter pour hommes qui allie modernité et tradition.</p>
+      </li>
+      <li class="chapter" data-reveal>
+        <span class="chapter__mark">L'Italie</span>
+        <h3 class="chapter__title">Une passion pour la mode à l'italienne</h3>
+        <p>Notre équipe dédiée sélectionne des pièces de qualité supérieure, parfaites pour les cérémonies et les occasions spéciales, jusqu'aux chaussures italiennes en cuir.</p>
+      </li>
+      <li class="chapter" data-reveal>
+        <span class="chapter__mark">L'atelier</span>
+        <h3 class="chapter__title">Un ajustement parfait</h3>
+        <p>Notre service de retouche personnalisé garantit un ajustement parfait, que vous optiez pour un look haut de gamme ou du sportswear chic.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="gallery" data-header-theme="light" data-companion="off">
+    <figure class="gallery__a" data-parallax-wrap><div class="reveal-img" data-reveal-img>{{img name="costume-ceremonie-croise" alt="Homme en costume de cérémonie marine à revers brodés, gilet et cravate assortis" sizes="(max-width: 760px) 100vw, 40vw" pos="50% 25%"}}</div></figure>
+    <figure class="gallery__b"><div class="reveal-img" data-reveal-img>{{img name="boutique-interieur" alt="Intérieur de la boutique : vestes, chemises et pantalons présentés sur un mur lumineux" sizes="(max-width: 760px) 100vw, 44vw"}}</div></figure>
+    <blockquote class="gallery__quote" data-reveal>
+      <p>La qualité est au cœur de notre philosophie.</p>
+    </blockquote>
+    <figure class="gallery__c"><div class="reveal-img" data-reveal-img>{{img name="ceintures-cuir-tressees" alt="Ceintures en cuir tressé" sizes="(max-width: 760px) 60vw, 22vw"}}</div></figure>
+  </section>
+
+  <section class="join" data-header-theme="dark">
+    <div class="join__media" data-parallax>{{img name="facade-boutique" alt="" sizes="100vw" pos="50% 45%"}}</div>
+    <div class="join__inner" data-reveal>
+      <h2 class="join__title">Rejoignez-nous à Maison Créange</h2>
+      <h3 class="join__sub">Votre style, notre passion</h3>
+      <p>Venez découvrir l'élégance raffinée et le service personnalisé que nous offrons. Que ce soit pour un costume, une tenue décontractée ou des accessoires, notre équipe est prête à vous aider à faire le meilleur choix.</p>
+      <div class="join__actions">
+        <a class="btn btn--light" href="/contactez-nous/#acces"><span class="btn__label">Visitez notre boutique</span></a>
+        <p class="join__addr">9 rue Maximilien de Sully, 66000 Perpignan<br>Du lundi au samedi, 10h – 12h30 et 14h – 19h</p>
+      </div>
+    </div>
+  </section>
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "maison-creange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@fontsource/cormorant-garamond": "^5.1.0",
+    "@fontsource/manrope": "^5.1.0",
+    "gsap": "^3.12.5"
+  }
+}
