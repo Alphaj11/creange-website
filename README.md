@@ -55,7 +55,16 @@ Sept scènes enchaînées au défilement (GSAP ScrollTrigger, scènes « collée
 
 - Les timelines sont dans la fonction `scenes()` de main.js ; chaque scène a sa hauteur de défilement dans main.css (`.scene`).
 - Une cravate « compagnon » suit la lecture sur ordinateur, avec une physique de pendule pilotée par la vitesse de défilement. Elle s'efface au-dessus des photos et compositions (`data-companion="off"` sur une section).
-- Mobile (≤ 900 px) : pas de scène bloquée, défilement naturel, animations simplifiées.
+- Mobile (≤ 900 px) : la même narration que sur ordinateur, recomposée en portrait. Les scènes restent collantes (CSS `position: sticky`, aucun blocage du défilement tactile) et chaque timeline a ses distances et tailles mobiles (`ctx.conditions.mob` dans `scenes()`). Téléphone à l'horizontale : façade à gauche, texte à droite.
+- Sans animation (préférence « réduire les animations » ou script indisponible) : lecture en flux, tout le contenu visible.
+
+## Direction artistique « luxe sombre »
+
+- Palette (variables en tête de main.css) : bleu marine #101F36, bleu nuit #172943, vert profond #123D32, vert sombre #0B241E, noir charbon #111111, or vieilli #98763D, blanc cassé #F2EFE7.
+- Les sections ne sont jamais des aplats : chaque scène a une couleur de bord (`--edge-top`, `--edge-bot`) identique à celle de la section voisine, ce qui crée des fondus marine → vert → charbon.
+- L'or est réservé aux filets, puces, soulignements et à quelques chiffres. Les petits textes restent en blanc cassé pour la lisibilité.
+- Un grain photographique très léger (SVG inline) donne de la matière aux fonds.
+- Section savoir-faire : portrait éditorial (`homme-costume-bleu`) et trois gros plans recadrés (`atelier-*.webp`) tirés des photos existantes.
 - Pas de Three.js : aucun modèle 3D fidèle des produits n'existe, une 3D approximative ferait moins réel que les photos.
 
 ## Accessibilité et performance

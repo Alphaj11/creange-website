@@ -44,3 +44,9 @@ Uniquement des intitulés de mise en scène, sans aucune information nouvelle su
 - Le décor intérieur est l'unique photo d'intérieur disponible (960 px de large) : elle est volontairement floutée (effet de profondeur de champ).
 - Pas de rotation réelle à 360° : la légère rotation des chaussures et de la veste est une perspective CSS sur une photo plate. Une vraie rotation demande un shooting sur plateau tournant (24 à 36 vues).
 - Le nœud de cravate est suggéré (resserrage photographique en deux calques), pas filmé. Un nouage crédible demande une vidéo tournée en boutique ou une modélisation 3D professionnelle.
+
+## Phase 2 « luxe sombre » (11/11/2026)
+- Nouveaux intitulés de légende dans la section savoir-faire : « La soie », « Les finitions » (la légende « Tenues de cérémonie » est conservée).
+- Photo retirée de l'accueil : le costume trois-pièces bleu roi sur mannequin (fond blanc, cadrage faible). Elle reste dans le dossier des images.
+- Photo ajoutée : `homme-costume-bleu` (déjà fournie par l'ancien site, jusqu'ici inutilisée) et trois recadrages : revers brodé et gilet du costume de cérémonie, nœud de la cravate à pois.
+- Aucun texte, chiffre, coordonnée ou mention légale n'a été modifié.

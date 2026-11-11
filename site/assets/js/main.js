@@ -9,7 +9,7 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
   const motion = hasGsap && !reduceMotion;
-  if (motion) root.classList.add('motion');
+  root.classList.toggle('motion', motion);
 
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -307,23 +307,27 @@
       $$('.scene .stage__decor--interieur').forEach((d) => { d.style.opacity = '0'; });
       return;
     }
-    const mm = gsap.matchMedia();
+    // la barre d'adresse mobile qui apparaît/disparaît ne doit pas recalculer les scènes
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
-    mm.add('(min-width: 901px) and (min-height: 521px)', () => {
-      const scrub = { scrub: 1.1, start: 'top top', end: 'bottom bottom' };
-      const st = (scene) => ({ trigger: scene, ...scrub });
+    const mm = gsap.matchMedia();
+    // Même narration sur ordinateur et sur mobile : seules les distances,
+    // les tailles et le rythme changent (m = composition mobile).
+    mm.add({ desk: '(min-width: 901px)', mob: '(max-width: 900px)' }, (ctx) => {
+      const m = ctx.conditions.mob;
+      const st = (scene) => ({ trigger: scene, start: 'top top', end: 'bottom bottom', scrub: m ? .6 : 1.1 });
 
       // SCÈNE 01 : travelling avant à travers la porte de la boutique
       const entree = $('.scene--entree');
       if (entree) {
         const facade = $('.stage__decor--facade', entree);
         const inside = $('.stage__decor--interieur', entree);
-        gsap.set(facade, { transformOrigin: '49% 62%' });
+        gsap.set(facade, { transformOrigin: m ? '58% 64%' : '49% 62%' });
         gsap.timeline({ scrollTrigger: st(entree) })
-          .to($('.entree__copy', entree), { opacity: 0, y: -40, duration: .22, ease: 'power1.in' }, .05)
+          .to($('.entree__copy', entree), { opacity: 0, y: m ? -30 : -40, duration: .22, ease: 'power1.in' }, .05)
           .to($('.scroll-cue', entree), { opacity: 0, duration: .1 }, 0)
-          .to(facade, { scale: 2.15, duration: .75, ease: 'power2.in' }, 0)
-          .to($('img', facade), { filter: 'brightness(.55) saturate(.9) blur(3px)', duration: .3, ease: 'none' }, .45)
+          .to(facade, { scale: m ? 2.3 : 2.15, duration: .75, ease: 'power2.in' }, 0)
+          .to($('img', facade), { filter: 'brightness(.42) saturate(.75) contrast(1.05) blur(3px)', duration: m ? .4 : .3, ease: 'none' }, m ? .25 : .45)
           .fromTo(inside, { opacity: 0, scale: 1.35 }, { opacity: 1, scale: 1.08, duration: .45, ease: 'power2.out' }, .55)
           .to(facade, { opacity: 0, duration: .2, ease: 'none' }, .62)
           .fromTo($('[data-threshold]', entree), { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: .18, ease: 'power2.out' }, .7)
@@ -337,21 +341,36 @@
         const prod = $('[data-product]', costume);
         const shadow = $('.product__shadow', prod);
         const img = $('.product__img', prod);
-        gsap.timeline({ scrollTrigger: st(costume) })
+        const copy = $('[data-copy]', costume);
+        const dots = $$('.hotspot__dot', costume);
+        const cards = $$('.hotspot__card', costume);
+        const tl = gsap.timeline({ scrollTrigger: st(costume) })
           .fromTo(decor, { scale: 1.6, transformOrigin: '50% 82%' }, { scale: 1.12, duration: 1, ease: 'none' }, 0)
           // départ : petit, flou, dans l'ombre du portant
-          .fromTo(prod, { xPercent: -95, yPercent: 8, scale: .38, rotateY: -24, z: -500 },
-            { xPercent: 0, yPercent: 0, scale: 1, rotateY: 0, z: 0, duration: .48, ease: 'power2.inOut' }, 0)
-          .fromTo(img, { filter: 'blur(5px) brightness(.45) drop-shadow(0 10px 10px rgba(5,10,20,.3))' },
-            { filter: 'blur(0px) brightness(1) drop-shadow(0 34px 34px rgba(5,10,20,.55))', duration: .4, ease: 'power1.out' }, .06)
+          .fromTo(prod, m ? { xPercent: -70, yPercent: -10, scale: .42, rotateY: -26, z: -400 } : { xPercent: -95, yPercent: 8, scale: .38, rotateY: -24, z: -500 },
+            { xPercent: 0, yPercent: 0, scale: 1, rotateY: 0, z: 0, duration: .46, ease: 'power2.inOut' }, 0)
+          .fromTo(img, { filter: 'blur(5px) brightness(.4) drop-shadow(0 10px 10px rgba(0,0,0,.3))' },
+            { filter: 'blur(0px) brightness(1) drop-shadow(0 34px 34px rgba(0,0,0,.6))', duration: .4, ease: 'power1.out' }, .06)
           .fromTo(shadow, { opacity: .15, scaleX: .4 }, { opacity: .9, scaleX: 1, duration: .45, ease: 'power2.inOut' }, 0)
           // légère rotation pour révéler la coupe, puis retour face
-          .to(prod, { rotateY: 9, duration: .16, ease: 'sine.inOut' }, .5)
-          .to(prod, { rotateY: 0, duration: .2, ease: 'sine.inOut' }, .68)
-          .fromTo($('[data-copy]', costume), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .32)
-          .to($$('.hotspot__dot', costume), { opacity: 1, duration: .05, stagger: .06 }, .5)
-          .fromTo($$('.hotspot__card', costume), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .08, stagger: .07 }, .54)
-          .to([prod, $('[data-copy]', costume), $('.hotspots', costume)], { opacity: 0, duration: .08 }, .93);
+          .to(prod, { rotateY: m ? 8 : 9, duration: .16, ease: 'sine.inOut' }, .48)
+          .to(prod, { rotateY: 0, duration: .2, ease: 'sine.inOut' }, .66)
+          .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
+        if (!m) {
+          tl.to(dots, { opacity: 1, duration: .05, stagger: .06 }, .5)
+            .fromTo(cards, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .08, stagger: .07 }, .54);
+        } else {
+          // sur mobile, la caméra inspecte chaque détail l'un après l'autre
+          tl.to(copy, { opacity: 0, y: -20, duration: .06 }, .53)
+            .to(dots, { opacity: 1, duration: .04, stagger: .03 }, .54);
+          cards.forEach((card, i) => {
+            const t = .58 + i * .085;
+            tl.fromTo(card, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .03 }, t)
+              .to(dots[i], { scale: 1.6, duration: .03 }, t);
+            if (i < cards.length - 1) tl.to(card, { opacity: 0, y: -12, duration: .03 }, t + .07).to(dots[i], { scale: 1, duration: .03 }, t + .07);
+          });
+        }
+        tl.to([prod, copy, $('.hotspots', costume)], { opacity: 0, duration: .07 }, .93);
       }
 
       // SCÈNE 03 : la chemise quitte l'étagère
@@ -360,16 +379,19 @@
         const decor = $('[data-cam]', chemise);
         const prod = $('[data-product]', chemise);
         const img = $('.product__img', prod);
-        gsap.timeline({ scrollTrigger: st(chemise) })
+        const copy = $('[data-copy]', chemise);
+        const loupes = $$('[data-loupe]', chemise);
+        const tl = gsap.timeline({ scrollTrigger: st(chemise) })
           .fromTo(decor, { scale: 2.3, transformOrigin: '12% 36%' }, { scale: 1.8, x: '-3%', duration: 1, ease: 'none' }, 0)
-          .fromTo(prod, { xPercent: -150, yPercent: -55, scale: .3, rotateX: 58, rotateZ: 8, z: -400 },
-            { xPercent: 0, yPercent: 0, scale: 1, rotateX: 18, rotateZ: -5, z: 0, duration: .5, ease: 'power2.inOut' }, 0)
-          .to(prod, { rotateX: 10, duration: .3, ease: 'sine.inOut' }, .5)
-          .fromTo(img, { filter: 'blur(4px) brightness(.5) drop-shadow(0 8px 8px rgba(5,10,20,.3))' },
-            { filter: 'blur(0px) brightness(1.02) drop-shadow(0 40px 36px rgba(5,10,20,.55))', duration: .4, ease: 'power1.out' }, .08)
-          .fromTo($('[data-copy]', chemise), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .3)
-          .fromTo($$('[data-loupe]', chemise), { opacity: 0, y: 24, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .1, stagger: .1 }, .55)
-          .to([prod, $('[data-copy]', chemise), ...$$('[data-loupe]', chemise)], { opacity: 0, duration: .08 }, .93);
+          .fromTo(prod, m ? { xPercent: -75, yPercent: -45, scale: .34, rotateX: 55, rotateZ: 10, z: -300 } : { xPercent: -150, yPercent: -55, scale: .3, rotateX: 58, rotateZ: 8, z: -400 },
+            { xPercent: 0, yPercent: 0, scale: 1, rotateX: m ? 16 : 18, rotateZ: -5, z: 0, duration: .5, ease: 'power2.inOut' }, 0)
+          .to(prod, { rotateX: m ? 8 : 10, duration: .3, ease: 'sine.inOut' }, .5)
+          .fromTo(img, { filter: 'blur(4px) brightness(.45) drop-shadow(0 8px 8px rgba(0,0,0,.3))' },
+            { filter: 'blur(0px) brightness(1) drop-shadow(0 40px 36px rgba(0,0,0,.6))', duration: .4, ease: 'power1.out' }, .08)
+          .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
+        if (m) tl.to(copy, { opacity: 0, y: -20, duration: .06 }, .56);
+        tl.fromTo(loupes, { opacity: 0, y: 24, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .1, stagger: .1 }, m ? .6 : .55)
+          .to([prod, copy, ...loupes], { opacity: 0, duration: .07 }, .93);
       }
 
       // SCÈNE 04 : la cravate descend de la vitrine et se balance sous son poids
@@ -378,6 +400,7 @@
         const decor = $('[data-cam]', acc);
         const prod = $('[data-product]', acc);
         const swingEl = $('[data-swing]', acc);
+        const vit = $$('[data-vitrine]', acc);
         gsap.timeline({ scrollTrigger: st(acc) })
           .fromTo(decor, { scale: 2.1, transformOrigin: '86% 72%' }, { scale: 1.7, x: '2%', duration: 1, ease: 'none' }, 0)
           .fromTo(prod, { yPercent: -110 }, { yPercent: 0, duration: .32, ease: 'power2.in' }, .02)
@@ -387,12 +410,12 @@
           .to(swingEl, { rotate: 2.5, duration: .09, ease: 'sine.inOut' })
           .to(swingEl, { rotate: -1, duration: .08, ease: 'sine.inOut' })
           .to(swingEl, { rotate: 0, duration: .08, ease: 'sine.inOut' })
-          .fromTo($$('[data-vitrine]', acc), { opacity: 0, y: 60, rotateY: -8 }, { opacity: 1, y: 0, rotateY: 0, duration: .22, stagger: .1, ease: 'power2.out' }, .2)
-          .to($$('[data-vitrine]', acc)[0] || {}, { y: -40, duration: .5, ease: 'none' }, .45)
-          .to($$('[data-vitrine]', acc)[1] || {}, { y: -80, duration: .5, ease: 'none' }, .45)
+          .fromTo(vit, { opacity: 0, y: 60, rotateY: -8 }, { opacity: 1, y: 0, rotateY: 0, duration: .22, stagger: .1, ease: 'power2.out' }, .2)
+          .to(vit[0] || {}, { y: m ? -24 : -40, duration: .5, ease: 'none' }, .45)
+          .to(vit[1] || {}, { y: m ? -50 : -80, duration: .5, ease: 'none' }, .45)
           .fromTo($('[data-copy]', acc), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .36)
           .to(prod, { yPercent: -120, duration: .14, ease: 'power2.in' }, .86)
-          .to([$('[data-copy]', acc), ...$$('[data-vitrine]', acc)], { opacity: 0, duration: .08 }, .93);
+          .to([$('[data-copy]', acc), ...vit], { opacity: 0, duration: .07 }, .93);
       }
 
       // SCÈNE 05 : la paire glisse sur le plateau et pivote légèrement
@@ -402,34 +425,63 @@
         const prod = $('[data-product]', shoes);
         const img = $('.product__img', prod);
         const shadow = $('.product__shadow', prod);
-        gsap.timeline({ scrollTrigger: st(shoes) })
+        const copy = $('[data-copy]', shoes);
+        const tl = gsap.timeline({ scrollTrigger: st(shoes) })
           .fromTo(decor, { scale: 1.5, transformOrigin: '40% 70%' }, { scale: 1.12, duration: 1, ease: 'none' }, 0)
           .fromTo($('.plinth', shoes), { rotateX: 70, opacity: 0 }, { rotateX: 58, opacity: 1, duration: .3, ease: 'power2.out' }, 0)
-          .fromTo(prod, { xPercent: 60, z: -600, scale: .55, rotateY: -28 }, { xPercent: 0, z: 0, scale: 1, rotateY: -8, duration: .5, ease: 'power3.inOut' }, 0)
+          .fromTo(prod, m ? { xPercent: 55, z: -500, scale: .5, rotateY: -30 } : { xPercent: 60, z: -600, scale: .55, rotateY: -28 },
+            { xPercent: 0, z: 0, scale: 1, rotateY: -8, duration: .5, ease: 'power3.inOut' }, 0)
           .to(prod, { rotateY: 10, duration: .35, ease: 'sine.inOut' }, .52)
           // la lumière glisse sur le cuir pendant la rotation
-          .fromTo(img, { filter: 'brightness(.5) contrast(1) drop-shadow(0 10px 10px rgba(5,10,20,.3))' },
-            { filter: 'brightness(1.04) contrast(1.04) drop-shadow(0 26px 22px rgba(5,10,20,.6))', duration: .45, ease: 'power1.out' }, .05)
-          .to(img, { filter: 'brightness(1.14) contrast(1.08) drop-shadow(0 26px 22px rgba(5,10,20,.6))', duration: .16, ease: 'sine.inOut' }, .6)
-          .to(img, { filter: 'brightness(1) contrast(1.03) drop-shadow(0 26px 22px rgba(5,10,20,.6))', duration: .2, ease: 'sine.inOut' }, .76)
+          .fromTo(img, { filter: 'brightness(.45) contrast(1) drop-shadow(0 10px 10px rgba(0,0,0,.3))' },
+            { filter: 'brightness(1.04) contrast(1.04) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .45, ease: 'power1.out' }, .05)
+          .to(img, { filter: 'brightness(1.16) contrast(1.08) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .16, ease: 'sine.inOut' }, .6)
+          .to(img, { filter: 'brightness(1) contrast(1.03) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .2, ease: 'sine.inOut' }, .76)
           .fromTo(shadow, { opacity: .1, scaleX: .5 }, { opacity: .85, scaleX: 1, duration: .5, ease: 'power2.inOut' }, 0)
-          .fromTo($('[data-copy]', shoes), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .3)
-          .to([prod, $('[data-copy]', shoes)], { opacity: 0, duration: .08 }, .94);
+          .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
+        if (m) {
+          // le texte long arrive en deux temps ; la paire recule pour lui laisser la place
+          const a = $('[data-swap-a]', shoes);
+          const b = $('[data-swap-b]', shoes);
+          gsap.set(b, { opacity: 0, y: 16 });
+          tl.to(a, { opacity: 0, y: -14, duration: .06 }, .58)
+            .to(b, { opacity: 1, y: 0, duration: .08 }, .62)
+            .to(prod, { yPercent: -14, scale: .86, duration: .14, ease: 'power2.inOut' }, .58);
+        }
+        tl.to([prod, copy], { opacity: 0, duration: .07 }, .94);
       }
-      return () => {};
-    });
 
-    // Mobile / tablette : pas de scène bloquée, le vêtement avance pendant que la scène traverse l'écran
-    mm.add('(max-width: 900px), (max-height: 520px)', () => {
-      $$('.scene').forEach((scene) => {
-        const decor = $('[data-cam], .stage__decor--facade', scene);
-        const prod = $('[data-product]', scene);
-        if (decor) gsap.fromTo(decor, { scale: 1.25 }, { scale: 1.05, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: true } });
-        if (prod) gsap.fromTo(prod, { scale: .8, y: 50, opacity: .3 }, { scale: 1, y: 0, opacity: 1, ease: 'power2.out', scrollTrigger: { trigger: scene, start: 'top 85%', end: 'top 25%', scrub: true } });
-        $$('[data-copy], [data-loupe], [data-vitrine], .hotspot__card', scene).forEach((el) => {
-          gsap.fromTo(el, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+      // SCÈNE 06 : le savoir-faire, composition éditoriale
+      const atelier = $('.scene--atelier');
+      if (atelier) {
+        const portrait = $('[data-portrait]', atelier);
+        const pimg = $('img', portrait);
+        const lines = $$('.atelier__line > span', atelier);
+        const kicker = $('.atelier__kicker', atelier);
+        const details = $$('[data-detail]', atelier);
+        const tape = $('.atelier__tape', atelier);
+        const text = $('[data-at-text]', atelier);
+        const tl = gsap.timeline({ scrollTrigger: st(atelier) })
+          .fromTo(portrait, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .26, ease: 'power2.out' }, 0)
+          .fromTo(pimg, { scale: 1.32 }, { scale: 1, duration: 1, ease: 'none' }, 0)
+          .fromTo(kicker, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .1 }, .12)
+          .fromTo(lines, { yPercent: 110 }, { yPercent: 0, duration: .14, stagger: .05, ease: 'power3.out' }, .14)
+          .fromTo(details, { opacity: 0, y: m ? 50 : 90, scale: .92 }, { opacity: 1, y: 0, scale: 1, duration: .16, stagger: .07, ease: 'power2.out' }, m ? .24 : .28)
+          .fromTo(tape, { scaleX: 0 }, { scaleX: 1, duration: .2, ease: 'power2.inOut' }, m ? .34 : .42);
+        // profondeur : chaque gros plan dérive à sa propre vitesse
+        details.forEach((d) => {
+          const depth = parseFloat(d.dataset.depth || '-40') * (m ? .4 : 1);
+          tl.to(d, { y: depth, duration: .5, ease: 'none' }, m ? .4 : .46);
         });
-      });
+        if (m) {
+          // troisième temps : le portrait s'assombrit, le texte prend la place
+          tl.to([kicker, ...lines, ...details, tape], { opacity: 0, duration: .07, stagger: .01 }, .56)
+            .to(portrait, { opacity: .28, duration: .1 }, .56)
+            .fromTo(text, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .63);
+        } else {
+          tl.fromTo(text, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .5);
+        }
+      }
       return () => {};
     });
   }
@@ -506,7 +558,7 @@
     });
 
     // mètre de tailleur qui se déroule
-    $$('[data-tape]').forEach((svg) => {
+    $$('[data-tape]:not(.atelier__tape)').forEach((svg) => {
       gsap.fromTo(svg, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: svg, start: 'top 92%', end: 'top 50%', scrub: true } });
     });
 
