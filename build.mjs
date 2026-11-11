@@ -94,7 +94,7 @@ for (const [src, out] of Object.entries(pages)) {
     navLegal: path === '/avis-juridique/' ? ' aria-current="page"' : '',
   };
   const depth = out.split('/').length - 1;
-  const html = relativize(render(tpl, vars), out === '404.html' ? '/' : '../'.repeat(depth));
+  const html = relativize(render(tpl, vars), out === '404.html' ? (process.env.BASE_PATH || '/') : '../'.repeat(depth));
   const dest = join(OUT, out);
   mkdirSync(dirname(dest), { recursive: true });
   writeFileSync(dest, html);
