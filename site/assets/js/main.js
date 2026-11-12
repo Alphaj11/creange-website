@@ -162,7 +162,7 @@
           .fromTo(view, { scale: 1.3 }, { scale: 1, duration: 1.6, ease: 'power3.out' }, 1.5)
           // 5. la lumière s'allume sur le costume
           .fromTo(beam, { opacity: 0 }, { opacity: 1, duration: .6, ease: 'power2.out' }, 2.05)
-          .fromTo(rack, { y: 24, filter: 'brightness(.45)' }, { y: 0, filter: 'brightness(1)', duration: 1.1, ease: 'power2.out' }, 1.9)
+          .fromTo(rack, { y: 24, opacity: .45 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power2.out' }, 1.9)
           // 6. le titre
           .to(words, { yPercent: 0, y: 0, duration: .85, stagger: .1, ease: 'power4.out' }, 2.45)
           .to(intro, { opacity: 0, duration: .6, ease: 'power2.inOut' }, 3.45)
@@ -304,11 +304,9 @@
       vel += acc;
       angle += vel;
       angle = Math.max(-14, Math.min(14, angle));
-      const light = 1 + Math.max(-.06, Math.min(.08, angle * .006));
       el.style.opacity = opacity.toFixed(3);
       el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
       swing.style.transform = `rotate(${angle.toFixed(2)}deg) skewX(${(angle * .18).toFixed(2)}deg)`;
-      swing.style.filter = `brightness(${light.toFixed(3)})`;
       const settled = Math.abs(yTarget - y) < .5 && Math.abs(angle) < .02 && Math.abs(vel) < .01 && Math.abs((show ? 1 : 0) - opacity) < .01;
       raf = settled ? 0 : requestAnimationFrame(frame);
     }
@@ -327,6 +325,17 @@
   /* ---------------------------------------------------------
      5 bis. Scènes photographiques pilotées par le défilement
      --------------------------------------------------------- */
+  function readyImages() {
+    $$('.product__img, .homme__img').forEach((img) => {
+      const host = img.closest('.product, .homme__cam') || img;
+      const ok = () => { host.classList.add('is-ready'); host.classList.remove('is-missing'); };
+      const ko = () => { host.classList.add('is-missing'); };
+      if (img.complete && img.naturalWidth) { (img.decode ? img.decode() : Promise.resolve()).then(ok, ok); return; }
+      img.addEventListener('load', () => { (img.decode ? img.decode() : Promise.resolve()).then(ok, ok); }, { once: true });
+      img.addEventListener('error', ko, { once: true });
+    });
+  }
+
   function scenes() {
     if (!motion) {
       $$('.scene .stage__decor--interieur').forEach((d) => { d.style.opacity = '0'; });
@@ -352,7 +361,7 @@
           .to($('.entree__copy', entree), { opacity: 0, y: m ? -30 : -40, duration: .22, ease: 'power1.in' }, .05)
           .to($('.scroll-cue', entree), { opacity: 0, duration: .1 }, 0)
           .to(facade, { scale: m ? 2.3 : 2.15, duration: .75, ease: 'power2.in' }, 0)
-          .to($('img', facade), { filter: 'brightness(.42) saturate(.75) contrast(1.05) blur(3px)', duration: m ? .4 : .3, ease: 'none' }, m ? .25 : .45)
+          .fromTo($('.stage__shade', facade), { opacity: 0 }, { opacity: 1, duration: m ? .4 : .3, ease: 'none' }, m ? .25 : .45)
           .fromTo(inside, { opacity: 0, scale: 1.35 }, { opacity: 1, scale: 1.08, duration: .45, ease: 'power2.out' }, .55)
           .to(facade, { opacity: 0, duration: .2, ease: 'none' }, .62)
           .fromTo($('[data-threshold]', entree), { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: .18, ease: 'power2.out' }, .7)
@@ -372,14 +381,13 @@
         const tl = gsap.timeline({ scrollTrigger: st(costume) })
           .fromTo(decor, { scale: 1.6, transformOrigin: '50% 82%' }, { scale: 1.12, duration: 1, ease: 'none' }, 0)
           // départ : petit, flou, dans l'ombre du portant
-          .fromTo(prod, m ? { xPercent: -70, yPercent: -10, scale: .42, rotateY: -26, z: -400 } : { xPercent: -95, yPercent: 8, scale: .38, rotateY: -24, z: -500 },
-            { xPercent: 0, yPercent: 0, scale: 1, rotateY: 0, z: 0, duration: .46, ease: 'power2.inOut' }, 0)
-          .fromTo(img, { filter: 'blur(5px) brightness(.4) drop-shadow(0 10px 10px rgba(0,0,0,.3))' },
-            { filter: 'blur(0px) brightness(1) drop-shadow(0 34px 34px rgba(0,0,0,.6))', duration: .4, ease: 'power1.out' }, .06)
+          .fromTo(prod, m ? { xPercent: -70, yPercent: -10, scale: .42, rotate: -3 } : { xPercent: -95, yPercent: 8, scale: .38, rotate: -3 },
+            { xPercent: 0, yPercent: 0, scale: 1, rotate: 0, duration: .46, ease: 'power2.inOut' }, 0)
+          .fromTo(img, { opacity: 0 }, { opacity: 1, duration: .3, ease: 'power1.out' }, .04)
           .fromTo(shadow, { opacity: .15, scaleX: .4 }, { opacity: .9, scaleX: 1, duration: .45, ease: 'power2.inOut' }, 0)
           // légère rotation pour révéler la coupe, puis retour face
-          .to(prod, { rotateY: m ? 8 : 9, duration: .16, ease: 'sine.inOut' }, .48)
-          .to(prod, { rotateY: 0, duration: .2, ease: 'sine.inOut' }, .66)
+          .to(prod, { scaleX: .95, duration: .16, ease: 'sine.inOut' }, .48)
+          .to(prod, { scaleX: 1, duration: .2, ease: 'sine.inOut' }, .66)
           .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
         if (!m) {
           tl.to(dots, { opacity: 1, duration: .05, stagger: .06 }, .5)
@@ -395,7 +403,7 @@
             if (i < cards.length - 1) tl.to(card, { opacity: 0, y: -12, duration: .03 }, t + .07).to(dots[i], { scale: 1, duration: .03 }, t + .07);
           });
         }
-        tl.to([copy, $('.hotspots', costume)], { opacity: 0, duration: .07 }, .93);
+        tl.to([copy, prod], { opacity: 0, duration: .07 }, .93);
       }
 
       // SCÈNE 03 : la chemise quitte l'étagère
@@ -408,11 +416,10 @@
         const loupes = $$('[data-loupe]', chemise);
         const tl = gsap.timeline({ scrollTrigger: st(chemise) })
           .fromTo(decor, { scale: 2.3, transformOrigin: '12% 36%' }, { scale: 1.8, x: '-3%', duration: 1, ease: 'none' }, 0)
-          .fromTo(prod, m ? { xPercent: -75, yPercent: -45, scale: .34, rotateX: 55, rotateZ: 10, z: -300 } : { xPercent: -150, yPercent: -55, scale: .3, rotateX: 58, rotateZ: 8, z: -400 },
-            { xPercent: 0, yPercent: 0, scale: 1, rotateX: m ? 16 : 18, rotateZ: -5, z: 0, duration: .5, ease: 'power2.inOut' }, 0)
-          .to(prod, { rotateX: m ? 8 : 10, duration: .3, ease: 'sine.inOut' }, .5)
-          .fromTo(img, { filter: 'blur(4px) brightness(.45) drop-shadow(0 8px 8px rgba(0,0,0,.3))' },
-            { filter: 'blur(0px) brightness(1) drop-shadow(0 40px 36px rgba(0,0,0,.6))', duration: .4, ease: 'power1.out' }, .08)
+          .fromTo(prod, m ? { xPercent: -75, yPercent: -45, scale: .34, rotate: 10 } : { xPercent: -150, yPercent: -55, scale: .3, rotate: 8 },
+            { xPercent: 0, yPercent: 0, scale: 1, rotate: -5, duration: .5, ease: 'power2.inOut' }, 0)
+          .to(prod, { rotate: -3, duration: .3, ease: 'sine.inOut' }, .5)
+          .fromTo(img, { opacity: 0 }, { opacity: 1, duration: .3, ease: 'power1.out' }, .06)
           .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
         if (m) tl.to(copy, { opacity: 0, y: -20, duration: .06 }, .56);
         tl.fromTo(loupes, { opacity: 0, y: 24, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .1, stagger: .1 }, m ? .6 : .55)
@@ -435,7 +442,7 @@
           .to(swingEl, { rotate: 2.5, duration: .09, ease: 'sine.inOut' })
           .to(swingEl, { rotate: -1, duration: .08, ease: 'sine.inOut' })
           .to(swingEl, { rotate: 0, duration: .08, ease: 'sine.inOut' })
-          .fromTo(vit, { opacity: 0, y: 60, rotateY: -8 }, { opacity: 1, y: 0, rotateY: 0, duration: .22, stagger: .1, ease: 'power2.out' }, .2)
+          .fromTo(vit, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .22, stagger: .1, ease: 'power2.out' }, .2)
           .to(vit[0] || {}, { y: m ? -24 : -40, duration: .5, ease: 'none' }, .45)
           .to(vit[1] || {}, { y: m ? -50 : -80, duration: .5, ease: 'none' }, .45)
           .fromTo($('[data-copy]', acc), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .14 }, .36)
@@ -454,14 +461,12 @@
         const tl = gsap.timeline({ scrollTrigger: st(shoes) })
           .fromTo(decor, { scale: 1.5, transformOrigin: '40% 70%' }, { scale: 1.12, duration: 1, ease: 'none' }, 0)
           .fromTo($('.plinth', shoes), { rotateX: 70, opacity: 0 }, { rotateX: 58, opacity: 1, duration: .3, ease: 'power2.out' }, 0)
-          .fromTo(prod, m ? { xPercent: 55, z: -500, scale: .5, rotateY: -30 } : { xPercent: 60, z: -600, scale: .55, rotateY: -28 },
-            { xPercent: 0, z: 0, scale: 1, rotateY: -8, duration: .5, ease: 'power3.inOut' }, 0)
-          .to(prod, { rotateY: 10, duration: .35, ease: 'sine.inOut' }, .52)
-          // la lumière glisse sur le cuir pendant la rotation
-          .fromTo(img, { filter: 'brightness(.45) contrast(1) drop-shadow(0 10px 10px rgba(0,0,0,.3))' },
-            { filter: 'brightness(1.04) contrast(1.04) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .45, ease: 'power1.out' }, .05)
-          .to(img, { filter: 'brightness(1.16) contrast(1.08) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .16, ease: 'sine.inOut' }, .6)
-          .to(img, { filter: 'brightness(1) contrast(1.03) drop-shadow(0 26px 22px rgba(0,0,0,.6))', duration: .2, ease: 'sine.inOut' }, .76)
+          .fromTo(prod, m ? { xPercent: 55, scale: .5 } : { xPercent: 60, scale: .55 },
+            { xPercent: 0, scale: 1, duration: .5, ease: 'power3.inOut' }, 0)
+          .fromTo(img, { opacity: 0 }, { opacity: 1, duration: .3, ease: 'power1.out' }, .04)
+          // la lumière glisse sur le cuir : un reflet peint, pas un filtre
+          .fromTo($('.product__glint', prod), { opacity: 0, xPercent: -60 }, { opacity: 1, xPercent: 0, duration: .16, ease: 'sine.inOut' }, .56)
+          .to($('.product__glint', prod), { opacity: 0, xPercent: 60, duration: .2, ease: 'sine.inOut' }, .72)
           .fromTo(shadow, { opacity: .1, scaleX: .5 }, { opacity: .85, scaleX: 1, duration: .5, ease: 'power2.inOut' }, 0)
           .fromTo(copy, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .12 }, .3);
         if (m) {
@@ -473,7 +478,7 @@
             .to(b, { opacity: 1, y: 0, duration: .08 }, .62)
             .to(prod, { yPercent: -14, scale: .86, duration: .14, ease: 'power2.inOut' }, .58);
         }
-        tl.to([copy], { opacity: 0, duration: .07 }, .94);
+        tl.to([copy, prod], { opacity: 0, duration: .07 }, .94);
       }
 
       // SCÈNE 06 : le savoir-faire, composition éditoriale
@@ -592,69 +597,168 @@
   }
 
   /* ---------------------------------------------------------
-     5 quater. Transitions par les matières (accueil uniquement)
-     Le vêtement se fond dans sa matière, qui remplit l'écran puis se
-     retire vers le haut comme une étoffe qu'on soulève.
+     5 quater. L'Homme Créange (accueil)
+     Une silhouette en pied lue détail par détail. Tout l'état visible
+     est une fonction pure de l'avancement : le défilement arrière
+     rejoue exactement les mêmes images, sans rien laisser derrière lui.
+     Un seul calque bouge (la caméra, transformation 2D, aucun filtre).
      --------------------------------------------------------- */
-  function weaves() {
-    const el = $('[data-weave]');
-    if (!el || !motion) return;
-    const tex = $('.weave__tex', el);
-    const sheen = $('.weave__sheen', el);
-    const word = $('.weave__word', el);
-    const junctions = [
-      { to: '.scene--chemise', from: '.product--veste', mat: 'laine', label: 'Le tissu' },
-      { to: '.scene--chaussures', from: '.product--cravate', mat: 'soie', label: 'La soie' },
-      { to: '.scene--atelier', from: '.product--chaussures', mat: 'cuir', label: 'Le cuir' },
-    ];
-    let active = null;
-    const show = (j) => {
-      if (active === j) return;
-      active = j;
-      el.dataset.mat = j.mat;
-      word.textContent = j.label;
+  function homme() {
+    const stage = $('[data-homme]');
+    if (!stage || !motion) return;
+    const scene = stage.closest('.scene');
+    const cam = $('[data-homme-cam]', stage);
+    const img = $('.homme__img', cam);
+    const glint = $('.homme__glint', cam);
+    const scrim = $('.homme__scrim', stage);
+    const svg = $('[data-homme-wires]', stage);
+    const NS = 'http://www.w3.org/2000/svg';
+    const step = (n) => $(`[data-homme-step="${n}"]`, stage);
+
+    // L'image est chargée en avance (deux écrans avant la scène) puis décodée.
+    const preload = () => { if (img.loading === 'lazy') img.loading = 'eager'; };
+    ScrollTrigger.create({ trigger: scene, start: 'top 300%', once: true, onEnter: preload });
+    window.addEventListener('load', () => setTimeout(preload, 1200), { once: true });
+
+    // Plans de caméra : point de l'image (fx, fy) amené au point d'écran (sx, sy), au zoom z.
+    // [ordinateur, mobile]
+    const shots = {
+      intro: [{ z: 1, fx: .5, fy: .53, sx: .5, sy: .52 }, { z: .74, fx: .5, fy: .55, sx: .5, sy: .4 }],
+      costume: [{ z: 1.75, fx: .56, fy: .33, sx: .64, sy: .46 }, { z: 1.4, fx: .54, fy: .33, sx: .52, sy: .37 }],
+      chemise: [{ z: 2.3, fx: .52, fy: .26, sx: .4, sy: .44 }, { z: 1.8, fx: .52, fy: .27, sx: .5, sy: .36 }],
+      cravate: [{ z: 2.5, fx: .495, fy: .31, sx: .62, sy: .45 }, { z: 1.8, fx: .5, fy: .3, sx: .5, sy: .36 }],
+      details: [{ z: 2, fx: .5, fy: .4, sx: .4, sy: .47 }, { z: 1.5, fx: .5, fy: .38, sx: .5, sy: .37 }],
+      chaussures: [{ z: 1.9, fx: .41, fy: .89, sx: .6, sy: .56 }, { z: 1.55, fx: .42, fy: .86, sx: .5, sy: .42 }],
+      final: [{ z: 1, fx: .5, fy: .53, sx: .63, sy: .52 }, { z: .74, fx: .5, fy: .55, sx: .5, sy: .38 }],
     };
-    junctions.forEach((j) => {
-      const target = $(j.to);
-      const origin = $(j.from);
-      if (!target || !origin) return;
-      ScrollTrigger.create({
-        trigger: target, start: 'top 120%', end: 'top -60%', scrub: true,
-        onUpdate: (self) => {
-          const p = self.progress;
-          if (p <= 0 || p >= 1) { if (active === j) { el.style.visibility = 'hidden'; active = null; } return; }
-          show(j);
-          el.style.visibility = 'visible';
-          const W = window.innerWidth, H = window.innerHeight;
-          if (p < .42) {
-            // 1. la matière naît du vêtement et gagne tout l'écran
-            const r = origin.getBoundingClientRect();
-            const cx = Math.min(Math.max(r.left + r.width / 2, 0), W), cy = Math.min(Math.max(r.top + r.height / 2, 0), H);
-            const far = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
-            const k = gsap.parseEase('power2.in')(p / .42);
-            el.style.clipPath = `circle(${(k * far * 1.02).toFixed(1)}px at ${cx.toFixed(0)}px ${cy.toFixed(0)}px)`;
-            gsap.set(tex, { scale: 1.25 - .17 * k, yPercent: 0 });
-            gsap.set(word, { opacity: 0 });
-            gsap.set(sheen, { xPercent: -120 });
-          } else if (p < .6) {
-            // 2. l'écran est tendu d'étoffe : un reflet glisse, le nom de la matière
-            const q = (p - .42) / .18;
-            el.style.clipPath = 'none';
-            gsap.set(tex, { scale: 1.08 - .04 * q, yPercent: 0 });
-            gsap.set(sheen, { xPercent: -120 + 240 * q });
-            gsap.set(word, { opacity: Math.min(1, q * 2.4), y: 10 * (1 - q) });
-          } else {
-            // 3. l'étoffe se soulève et révèle la scène suivante
-            const q = gsap.parseEase('power2.inOut')((p - .6) / .4);
-            el.style.clipPath = `inset(0 0 ${(q * 100).toFixed(2)}% 0)`;
-            gsap.set(tex, { scale: 1.04, yPercent: -8 * q });
-            gsap.set(word, { opacity: 1 - q * 2.5, y: -30 * q });
-          }
-        },
-        onLeave: () => { el.style.visibility = 'hidden'; active = null; },
-        onLeaveBack: () => { el.style.visibility = 'hidden'; active = null; },
+    // Temps forts : [début du plan, fin du plan] sur l'avancement 0..1
+    const beats = [
+      ['intro', 0, .1], ['costume', .16, .27], ['chemise', .33, .43], ['cravate', .49, .59],
+      ['details', .65, .75], ['chaussures', .81, .89], ['final', .95, 1],
+    ];
+    const notes = beats.slice(1, 6).map(([name, a, b]) => {
+      const el = step(name);
+      const pts = el.dataset.anchor.split(' ').map(Number);
+      const anchors = [];
+      for (let i = 0; i < pts.length; i += 2) anchors.push([pts[i], pts[i + 1]]);
+      const wires = anchors.map(() => {
+        const g = document.createElementNS(NS, 'g');
+        const path = document.createElementNS(NS, 'path');
+        path.setAttribute('pathLength', '1');
+        path.style.strokeDasharray = '1 1';
+        const ring = document.createElementNS(NS, 'circle'); ring.setAttribute('class', 'ring'); ring.setAttribute('r', '7');
+        const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('class', 'dot'); dot.setAttribute('r', '2.6');
+        g.append(path, ring, dot); svg.append(g);
+        return { g, path, ring, dot };
       });
+      return { name, a, b, el, anchors, wires, left: el.classList.contains('homme__note--left') };
     });
+    const intro = step('intro');
+    const sign = step('final');
+
+    const clamp01 = (v) => Math.min(1, Math.max(0, v));
+    const ramp = (p, a, b) => clamp01((p - a) / (b - a));
+    const ease = (t) => t * t * (3 - 2 * t);
+    // visibilité d'un élément : entre à [inA, inB], sort à [outA, outB]
+    const life = (p, inA, inB, outA, outB) => Math.min(ramp(p, inA, inB), 1 - ramp(p, outA, outB));
+
+    let mob = false, W = 0, H = 0, w0 = 0, h0 = 0, ready = false, last = -1;
+    const measure = () => {
+      mob = window.matchMedia('(max-width: 900px)').matches;
+      W = stage.clientWidth; H = stage.clientHeight;
+      w0 = cam.offsetWidth; h0 = cam.offsetHeight;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    };
+
+    const shotAt = (p) => {
+      const k = mob ? 1 : 0;
+      for (let i = 0; i < beats.length; i++) {
+        const [n, a, b] = beats[i];
+        if (p <= b || i === beats.length - 1) {
+          if (p >= a || i === 0) return shots[n][k];
+          const [pn, , pb] = beats[i - 1];
+          const t = ease(ramp(p, pb, a)), A = shots[pn][k], B = shots[n][k];
+          const z = Math.exp(Math.log(A.z) + (Math.log(B.z) - Math.log(A.z)) * t);
+          const mix = (u, v) => u + (v - u) * t;
+          return { z, fx: mix(A.fx, B.fx), fy: mix(A.fy, B.fy), sx: mix(A.sx, B.sx), sy: mix(A.sy, B.sy) };
+        }
+      }
+      return shots.final[k];
+    };
+
+    const render = (p) => {
+      last = p;
+      const s = shotAt(p);
+      // légère respiration d'entrée
+      const z = s.z * (1 + .05 * (1 - ease(ramp(p, 0, .08))));
+      const tx = s.sx * W - z * s.fx * w0, ty = s.sy * H - z * s.fy * h0;
+      cam.style.transform = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${z.toFixed(4)})`;
+      cam.style.opacity = ease(ramp(p, 0, .05)).toFixed(3);
+
+      const vi = life(p, .02, .05, .1, .13);
+      intro.style.opacity = vi.toFixed(3);
+      intro.style.visibility = vi > 0 ? 'visible' : 'hidden';
+      const vs = ease(ramp(p, .93, .97));
+      sign.style.opacity = vs.toFixed(3);
+      sign.style.visibility = vs > 0 ? 'visible' : 'hidden';
+      sign.style.translate = `0 ${(14 * (1 - vs)).toFixed(1)}px`;
+
+      let scrimV = 0;
+      notes.forEach((n) => {
+        // le texte arrive un peu avant le plan, la ligne se trace ensuite ;
+        // tout s'efface pendant que la note suivante apparaît
+        const txt = life(p, n.a - .035, n.a - .005, n.b + .005, n.b + .035);
+        const draw = ease(life(p, n.a - .02, n.a + .02, n.b, n.b + .025));
+        scrimV = Math.max(scrimV, txt);
+        n.el.style.opacity = txt.toFixed(3);
+        n.el.style.visibility = txt > 0 ? 'visible' : 'hidden';
+        n.el.style.translate = `0 ${(10 * (1 - ease(ramp(p, n.a - .035, n.a)))).toFixed(1)}px`;
+        if (!ready || draw <= 0) { n.wires.forEach((w) => { w.g.style.display = 'none'; }); return; }
+        const r = n.el.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+        const lab = n.el.firstElementChild.getBoundingClientRect();
+        n.wires.forEach((w, i) => {
+          const ax = tx + z * n.anchors[i][0] * w0, ay = ty + z * n.anchors[i][1] * h0;
+          let d;
+          if (mob) {
+            // depuis le haut du texte, à gauche, puis vers le point du vêtement
+            const x0 = r.left - sr.left + 2 + i * 14, y0 = r.top - sr.top - 14;
+            d = `M${x0.toFixed(1)} ${y0.toFixed(1)} V${(y0 - 22).toFixed(1)} L${ax.toFixed(1)} ${ay.toFixed(1)}`;
+          } else {
+            const y0 = lab.top - sr.top + lab.height / 2 + i * 12;
+            const x0 = n.left ? r.right - sr.left + 18 : r.left - sr.left - 18;
+            const x1 = x0 + (n.left ? 34 : -34);
+            d = `M${x0.toFixed(1)} ${y0.toFixed(1)} H${x1.toFixed(1)} L${ax.toFixed(1)} ${ay.toFixed(1)}`;
+          }
+          w.g.style.display = '';
+          w.path.setAttribute('d', d);
+          w.path.style.strokeDashoffset = (1 - draw).toFixed(4);
+          const end = ease(ramp(draw, .82, 1));
+          w.dot.setAttribute('cx', ax.toFixed(1)); w.dot.setAttribute('cy', ay.toFixed(1));
+          w.ring.setAttribute('cx', ax.toFixed(1)); w.ring.setAttribute('cy', ay.toFixed(1));
+          w.dot.style.opacity = end.toFixed(3);
+          w.ring.style.opacity = (end * .55).toFixed(3);
+          w.ring.setAttribute('r', (4 + 3 * end).toFixed(2));
+        });
+      });
+      scrim.style.opacity = Math.max(scrimV, mob ? Math.max(vi, vs) : 0).toFixed(3);
+      // lumière discrète sur le nœud de cravate
+      glint.style.opacity = (life(p, .47, .52, .57, .61) * .9).toFixed(3);
+    };
+
+    const state = { p: 0 };
+    measure();
+    render(0);
+    const onReady = () => { ready = true; render(last < 0 ? 0 : last); };
+    if (cam.classList.contains('is-ready')) onReady();
+    else new MutationObserver((list, obs) => { if (cam.classList.contains('is-ready')) { obs.disconnect(); onReady(); } }).observe(cam, { attributes: true, attributeFilter: ['class'] });
+
+    gsap.to(state, {
+      p: 1, ease: 'none',
+      scrollTrigger: { trigger: scene, start: 'top top', end: 'bottom bottom', scrub: .7, invalidateOnRefresh: true },
+      onUpdate: () => render(state.p),
+    });
+    ScrollTrigger.addEventListener('refreshInit', measure);
+    ScrollTrigger.addEventListener('refresh', () => render(state.p));
   }
 
   /* ---------------------------------------------------------
@@ -899,6 +1003,7 @@
      --------------------------------------------------------- */
   $$('[data-split]').forEach(splitWords);
   counters();
+  readyImages();
 
   if (!motion) {
     root.classList.remove('is-arriving');
@@ -913,7 +1018,7 @@
   scrollAnimations();
   scenes();
   aboutScenes();
-  weaves();
+  homme();
 
   const begin = () => {
     heroIn();
